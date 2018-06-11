@@ -24,7 +24,7 @@ abstract class Game extends Canvas {
     frame.add(this);
     frame.setSize(width,height);
     frame.setVisible(true);
-    frame.setResizable(false);
+    frame.setResizable(true);
     frame.addWindowListener(new WindowAdapter() { 
       public void windowClosing(WindowEvent e) {System.exit(0);} 
     });

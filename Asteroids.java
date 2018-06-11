@@ -67,6 +67,9 @@ class Asteroids extends Game {
 	//width and height
 	static int w = 800;
 	static int h = 600;
+        // width and height scale
+        static double scaleW = 1;
+        static double scaleH = 1;
 
 	// use for txt file
 	boolean statChange = false;
@@ -81,6 +84,8 @@ class Asteroids extends Game {
 	}
 
 	public void paint(Graphics brush) {
+                brush = new GraphicsScallable(brush, scaleW, scaleH);
+                
 		delay++;
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, w, h);
