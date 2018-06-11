@@ -32,7 +32,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 
-class Asteroids extends Game {
+class Asteroids extends Game implements ComponentListener{
 	// added boolean pause to pause game along with delay for pause
 	static boolean pause = false;
 	// delay is used for pause, start of game and the ending
@@ -81,6 +81,7 @@ class Asteroids extends Game {
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(ship);
+                this.addComponentListener(this);
 	}
 
 	public void paint(Graphics brush) {
@@ -360,4 +361,34 @@ class Asteroids extends Game {
 		
 
 	}
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+        
+        Asteroids frame = (Asteroids)e.getComponent();
+        Rectangle fBounds = frame.getBounds();         
+        //Insets fInsets = frame.getInsets();
+        //setSize(frame.getSize());
+        
+        setSize(fBounds.width, fBounds.height);
+                
+        scaleW = ((100000*getSize().width)/width)/100000.0;
+        scaleH = ((100000*getSize().height)/height)/100000.0;
+        repaint();
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -45,7 +45,8 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void fillRect(int x, int y, int width, int height) {
-        graphics.fillRect(x, y, width, height);
+        graphics.fillRect(x, y, (int)(width*scaleW), (int)(height*scaleH));
+        System.out.println("GraphicsScallable.fillRect() scaleH="+Double.toString(scaleH)+ " scaleW="+ Double.toString(scaleW) );
     }
 
     @Override
@@ -150,7 +151,7 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void translate(int x, int y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        graphics.translate(x, y);
     }
 
     @Override
