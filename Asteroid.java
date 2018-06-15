@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Asteroid extends Polygon{
-        
+        // hello
 	Random random = new Random();
 	int speed = random.nextInt(3) + 1;
 	boolean hit;
