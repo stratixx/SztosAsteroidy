@@ -49,16 +49,23 @@ class Asteroids extends Game implements ComponentListener{
 	int live = 3;
 	// vector of asteroids, starts with 5
 	Vector asV = Asteroid.astV(5);
+        ReadFile rf = new ReadFile();
+        boolean alreadyExecuted = false;
+        int helpful=0; //used when changing levels in paint method
+        
+        
+        
         
 	// array of stars
 	//Star[] stars = Star.starArray(100);
 	Random random = new Random();
-	int level = 0;
+	int level = 1;
+        int time=0;
 	//score value
 	int scoreIn = 0;
-        
-
-	Bullet[] bullets = Bullet.bullets(3);
+        //
+                
+        Bullet[] bullets = Bullet.bullets(3);
 	static int bullet = 0;
 	static int bulletDelay = 0;
 
@@ -148,10 +155,12 @@ class Asteroids extends Game implements ComponentListener{
 					immunity++;
 					// since it is dangerous traveling super fast, i increased
 					// the points.
+                                        //time moves faster with  space pressed on
+                                        
 
 					bullets[0].move(ship);
 					if (bullets[0].shoot == true) {
-						brush.setColor(Color.red);
+						brush.setColor(Color.blue);
 						bullets[0].paint(brush);
 						brush.setColor(Color.black);
 						bullets[0].square.paint(brush);
@@ -164,9 +173,10 @@ class Asteroids extends Game implements ComponentListener{
 					// score is increases when using space bar
 					if (ship.space) {
 						score += 5;
+                                                time+=2;
 						if (ship.upKey) {
 							if (immunity < 300) {
-								brush.drawString("Immunity:" + (300 - immunity), 10, 100);
+								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
 								ship.move();
 								if (immunity % 10 != 0) {
 									ship.thrust.paint(brush);
@@ -177,7 +187,7 @@ class Asteroids extends Game implements ComponentListener{
 							}
 						} else {
 							if (immunity < 300) {
-								brush.drawString("Immunity:" + (300 - immunity), 10, 100);
+								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
 								ship.move();
 								// flicker when you have immunity
 								if (immunity % 10 != 0) {
@@ -190,7 +200,7 @@ class Asteroids extends Game implements ComponentListener{
 						}
 					} else {
 						if (immunity < 300) {
-							brush.drawString("Immunity:" + (300 - immunity), 10, 100);
+							brush.drawString("Immunity:" + (300 - immunity), 10, 120);
 							ship.move();
 							if (immunity % 10 != 0) {
 								ship.paint(brush);
@@ -200,9 +210,11 @@ class Asteroids extends Game implements ComponentListener{
 							ship.paint(brush);
 						}
 						score++;
+                                                time++;
 					}
 					brush.drawString("Score:" + score, 10, 20);
 					brush.drawString("Lives " + live, 10, 40);
+                                        brush.drawString("Time "+time, 10, 100);
 					
 					//loop for drawing the asteroids
 					for (int i = 0; i < asV.size(); i++) {
@@ -216,16 +228,12 @@ class Asteroids extends Game implements ComponentListener{
 							live--;
 							immunity = 0;
 							ship.reset();
-							//((Asteroid) asV.elementAt(i)).reset();
-                                                        ((Asteroid) asV.elementAt(i)).changeShape();
+							((Asteroid) asV.elementAt(i)).reset();
+                                                       // ((Asteroid) asV.elementAt(i)).changeShape();
+                                                        //asV.add(i)
                                                         ((Asteroid) asV.elementAt(i)).hit=true;
                                                     
                                                    
-                                                        live--;
-                                                        immunity=0;
-                                                        ship.reset();
-                                                        ((Asteroid) asV.elementAt(i)).reset();
-                                                    
                                                         
                                                         
                                                         
@@ -278,34 +286,45 @@ class Asteroids extends Game implements ComponentListener{
 							bullets[bullet].counter = 50;
 						}
                                                 //second crash with bullet
-                                                if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square)
+                                               /* if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square)
 								&& bullets[bullet].shoot == true) {
 							((Asteroid) asV.elementAt(i)).reset();
 							score += scoreIn;
 							astDestroyed++;
 							bullets[bullet].counter = 50;
-						}
+						}*/
 					}
 			
 					//the next few lines of code is for handling score, crashes and asteroid adding
 					//set the score
 					brush.setColor(Color.white);
-					if (score < 500000) {
+					if (time < rf.getTotalGameTime()) {
 						brush.drawString("Level: " + level, 10, 60);
 						scoreIn = 1000;
 						//add another asteroid
-						if (level < ((int) (score / 1000) + 1)) {
-							// add new asteroid
+                                                //level change
+						//if (level < ((int) (score / 1000) + 1)) {
+                                                if((time-helpful)>rf.getPlayTime(level)){
+                                                   // System.out.println(level);
+                                                   //helpful trick to solve my problem during level change
+                                                    helpful+=rf.getPlayTime(level);
+							// add the number of asteroids indicated in config.txt 
+                                                        level+=1;
+                                                    //System.out.println(level);
+                                                        
+                                                        for(int i=0; i<rf.GetAstNumber(level); i++) {
 							asV.addElement(new Asteroid(Asteroid.pos()));
+                                                       }
+                                                        
 						}
 					} else {
 						//too many asteroids so none are added here
-						brush.drawString("Level: Impossible", 10, 60);
+						brush.drawString("Congratulations! You won!", 10, 60);
 						scoreIn = 2000;
 					}
 
 
-					level = ((score / 1000) + 1);
+					//level = ((score / 1000) + 1);
 
 				} else {
 					brush.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -339,6 +358,8 @@ class Asteroids extends Game implements ComponentListener{
 						immunity = 300;
 						live = 3;
 						score = 0;
+                                                time=0;
+                                                level=1;
 						start = 0;
 						astDestroyed = 0;
 						shipDestroyed = 0;
@@ -347,6 +368,8 @@ class Asteroids extends Game implements ComponentListener{
 						ship.reset();
 						asV = Asteroid.astV(5);
 						delay = 0;
+                                                alreadyExecuted = false;
+                                                helpful=0;
 
 					}
 				}

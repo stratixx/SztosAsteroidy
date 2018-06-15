@@ -106,6 +106,10 @@ public class File {
 		stat[11] = "Total Ships Destroyed this round: " + ship;
 		write(stat);
 	}
+
+    File(String configtxt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 	
 
 }

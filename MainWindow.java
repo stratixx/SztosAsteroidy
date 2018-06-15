@@ -17,15 +17,17 @@ import javax.swing.*;
 
 public class MainWindow extends Canvas implements ActionListener{
         protected boolean on = true;
-        protected int width, height;
+         int width;
+         int height;
 	private JButton play;
 	private JButton highScore;
 	private JButton theEnd;
+       
         
         
 	public MainWindow(int width, int height) {
-                this.width=width;
-                this.height=height;
+               this.width=width;
+               this.height=height;
                
                 play = new JButton("Play Asteroids");
 		highScore = new JButton("High Score");
@@ -66,7 +68,8 @@ public class MainWindow extends Canvas implements ActionListener{
 			else if(source==highScore) 
 				//uruchamia się okienko high score
 			{
-			   ResultsWindow rw = new ResultsWindow(500,700);
+                           ReadFile rf = new ReadFile();
+			   ResultsWindow rw = new ResultsWindow(this.width,this.height);
 			}
 				
 				

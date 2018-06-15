@@ -27,13 +27,28 @@ public class Ship extends Polygon implements KeyListener {
 			new Point(0, 20), new Point(-12, 15), new Point(-10, 12),
 			new Point(-20, 10), new Point(-10, 8), new Point(-12, 5) };
 	static int rot = 0;
-	static Point pos = new Point(390, 290);
+        ReadFile r = new ReadFile();
+	static Point pos = new Point( getShipXPosition(), getShipYPosition());
 	
-	/*
-	// antigravity purpose//work in progress...
-	static boolean prevPos = false;
-	static int gravity = 0;
-	*/
+        
+        static public int getShipXPosition(){
+            int x;
+            ReadFile r = new ReadFile();
+            r.openFile();
+            r.readFile();
+            x=r.x;
+            return x;
+        }
+       
+        static public int getShipYPosition(){
+            int y;
+            ReadFile r = new ReadFile();
+            r.openFile();
+            r.readFile();
+            y=r.y;
+            return y;
+        }
+	
 	//thrust image
 	//non static because it is always unique for every ship
 	Polygon thrust = new Polygon(boost, new Point(pos.x -15,pos.y), rot);
@@ -49,7 +64,7 @@ public class Ship extends Polygon implements KeyListener {
 	public void reset() {
 		// default values
 		this.rotation = 0;
-		this.position = new Point(390, 290);
+		this.position = new Point(getShipXPosition(), getShipYPosition());
 		this.thrust = new Polygon(boost, new Point(pos.x -15,pos.y), rot);
 	}
 
