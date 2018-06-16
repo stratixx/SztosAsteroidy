@@ -72,16 +72,17 @@ class Asteroids extends Game implements ComponentListener{
 	JFrame frame;
 
 	//width and height
-	static int w = 800;
-	static int h = 600;
         // width and height scale
         static double scaleW = 1;
         static double scaleH = 1;
+	static int w = getWindowWidthorHeight("width");
+	static int h = getWindowWidthorHeight("height");
 
 	// use for txt file
 	boolean statChange = false;
 	int astDestroyed = 0;
 	int shipDestroyed = 0;
+        String name;
 
 	public Asteroids() {
 		super("Asteroids v2.1", w, h);
@@ -89,7 +90,49 @@ class Asteroids extends Game implements ComponentListener{
 		this.requestFocus();
 		this.addKeyListener(ship);
                 this.addComponentListener(this);
+                
 	}
+        
+        static public int getWindowWidthorHeight(String s){
+            int x = 0;
+            ReadFile r = new ReadFile();
+            r.openFile();
+            r.readFile();
+            if(s=="width")
+            {
+               x= r.width;
+            }
+            else if(s=="height"){
+                x= r.height;
+            }
+            return x;
+                
+           
+        }
+        
+        public void readFile(int i, int level, String name){
+            ReadFile r = new ReadFile();
+            r.openFile();
+            r.readFile();
+            switch(i){
+                case 1:
+                    r.getTotalGameTime();
+                break;
+                case 2:
+                    r.GetAstNumber(level);
+                    break;
+                case 3:
+                    r.GetObjectlVelocity(level, name);
+                    break;
+                case 4:
+                    r.getPlayTime(level);
+                    break;
+                default: 
+                    System.out.println("Error connected with reading file");
+            
+        }
+        }
+        
 
 	public void paint(Graphics brush) {
                 brush = new GraphicsScallable(brush, scaleW, scaleH);
@@ -97,6 +140,13 @@ class Asteroids extends Game implements ComponentListener{
 		delay++;
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, w, h);
+                
+                if(!alreadyExecuted) {
+                rf.openFile();
+                rf.readFile();
+                alreadyExecuted = true;
+                }
+                
 		
 		
 			// this sets pause on or off
