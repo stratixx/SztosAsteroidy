@@ -1,0 +1,13 @@
+# linijki zawierajace # sa pomijane w skanerze tekstu
+# wymiary okienka
+HEIGHT 800
+WIDTH 900
+# punkt poczatkowy statku
+X 70
+Y 70
+# poziomy
+LEVELONE 4 1,00 1,00 10
+LEVELTWO 5 1,25 1,00 20
+LEVELTHREE 6 1,25 1,25 20
+LEVELFOUR 7 1,5 1,25 20
+LEVELFIVE 5 1,5 1,5 30
