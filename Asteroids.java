@@ -241,7 +241,7 @@ class Asteroids extends Game implements ComponentListener{
                                         //time moves faster with  space pressed on
                                         
 
-					bullets[0].move(ship);
+					bullets[0].move(ship, level);
 					if (bullets[0].shoot == true) {
 						brush.setColor(Color.blue);
 						bullets[0].paint(brush);
@@ -332,7 +332,7 @@ class Asteroids extends Game implements ComponentListener{
                                                         ((Asteroid) asV.elementAt(i)).changeShape();
                                                         asV.add(i+1, getSmallAsteroid(((Asteroid)asV.elementAt(i)).position));
                                                         score += scoreIn;
-                                                        bullets[bullet].counter = 50; //Its better to set smaller counter or a counter depeding on the level
+                                                        bullets[bullet].counter = bullets[bullet].getCounterLimit(level); //Its better to set smaller counter or a counter depeding on the level
                                                         
 							//((Asteroid) asV.elementAt(i)).reset();
                                                         }
@@ -341,7 +341,7 @@ class Asteroids extends Game implements ComponentListener{
 							((Asteroid) asV.elementAt(i)).reset();
 							score += scoreInsmall;
 							astDestroyed++;
-							bullets[bullet].counter = 50;
+							bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
 						}
 					}
 			
@@ -414,7 +414,7 @@ class Asteroids extends Game implements ComponentListener{
 						start = 0;
 						astDestroyed = 0;
 						shipDestroyed = 0;
-						bullets[bullet].counter = 50;
+						bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
 						statChange = false;
 						ship.reset();
 						asV = Asteroid.astV(getInnitialAsteroidsNumber());
