@@ -8,7 +8,8 @@ import java.util.Vector;
 public class Asteroid extends Polygon{
         
 	Random random = new Random();
-	int speed = random.nextInt(3) + 1;
+	//double speed = random.nextInt(3) + 1;
+        double speed =0;
 	boolean hit=false;
 	
 	public Asteroid(Point pos) {
@@ -17,6 +18,10 @@ public class Asteroid extends Polygon{
                 
                 
 	}
+        
+        public double getAsteroidVelocity(int level){
+            return 0;
+        }
         
       
 	public void reset(){
@@ -150,9 +155,15 @@ public class Asteroid extends Polygon{
 	 * Method move: just simply makes the asteroid(s) move around the canvas
 	 * also if the get out bound they will appear on the opposite side
 	 */
-	public void move(){
+	public void move(int level){
 		double prevPosX = position.x;
 		double prevPosY = position.y;
+                
+                ReadFile rf = new ReadFile();
+                rf.openFile();
+                rf.readFile();
+                
+                speed=(rf.GetObjectlVelocity(level, "asteroid")*(random.nextInt(3) + 1));
 
 		position = new Point(position.x + (speed*Math.cos(Math.toRadians(rotation))),
 				position.y + (speed* Math.sin(Math.toRadians(rotation))));

@@ -260,36 +260,36 @@ class Asteroids extends Game implements ComponentListener{
 						if (ship.upKey) {
 							if (immunity < 300) {
 								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
-								ship.move();
+								ship.move(level);
 								if (immunity % 10 != 0) {
 									ship.thrust.paint(brush);
 								}
 							} else {
-								ship.move();
+								ship.move(level);
 								ship.thrust.paint(brush);
 							}
 						} else {
 							if (immunity < 300) {
 								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
-								ship.move();
+								ship.move(level);
 								// flicker when you have immunity
 								if (immunity % 10 != 0) {
 									ship.paint(brush);
 								}
 							} else {
-								ship.move();
+								ship.move(level);
 								ship.paint(brush);
 							}
 						}
 					} else {
 						if (immunity < 300) {
 							brush.drawString("Immunity:" + (300 - immunity), 10, 120);
-							ship.move();
+							ship.move(level);
 							if (immunity % 10 != 0) {
 								ship.paint(brush);
 							}
 						} else {
-							ship.move();
+							ship.move(level);
 							ship.paint(brush);
 						}
 						score++;
@@ -303,7 +303,7 @@ class Asteroids extends Game implements ComponentListener{
 					for (int i = 0; i < asV.size(); i++) {
 						brush.setColor(Color.pink);
 						((Asteroid) asV.elementAt(i)).paint(brush);
-						((Asteroid) asV.elementAt(i)).move();
+						((Asteroid) asV.elementAt(i)).move(level);
 						// crash with ship : asteroid is destroyed
 						if (ship.intersection(((Asteroid) asV.elementAt(i))) && immunity > 300 ) {
                                                         

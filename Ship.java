@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 public class Ship extends Polygon implements KeyListener {
 	//int delay = 0;
-	static int speed = 0;
+	static double speed = 0;
 	//keys
 	boolean shift = false;
 	boolean pKey = false;
@@ -27,27 +27,25 @@ public class Ship extends Polygon implements KeyListener {
 			new Point(0, 20), new Point(-12, 15), new Point(-10, 12),
 			new Point(-20, 10), new Point(-10, 8), new Point(-12, 5) };
 	static int rot = 0;
-        ReadFile r = new ReadFile();
-	static Point pos = new Point( getShipXPosition(), getShipYPosition());
+        //ReadFile r = new ReadFile();
+	static Point pos = new Point( getShipPosition("x"), getShipPosition("y"));
 	
         
-        static public int getShipXPosition(){
-            int x;
+        static public int getShipPosition(String xy){
+            
             ReadFile r = new ReadFile();
             r.openFile();
             r.readFile();
-            x=r.x;
-            return x;
+            if(xy.equals("x")){
+                return r.x;
+            }
+            else if(xy.equals("y")){
+                return r.y;
+            }
+            else throw new IllegalArgumentException("Unknown sign in getShipPosition method");
+            
         }
-       
-        static public int getShipYPosition(){
-            int y;
-            ReadFile r = new ReadFile();
-            r.openFile();
-            r.readFile();
-            y=r.y;
-            return y;
-        }
+        
 	
 	//thrust image
 	//non static because it is always unique for every ship
@@ -64,7 +62,7 @@ public class Ship extends Polygon implements KeyListener {
 	public void reset() {
 		// default values
 		this.rotation = 0;
-		this.position = new Point(getShipXPosition(), getShipYPosition());
+		this.position = new Point(getShipPosition("x"), getShipPosition("y"));
 		this.thrust = new Polygon(boost, new Point(pos.x -15,pos.y), rot);
 	}
 
@@ -175,17 +173,21 @@ public class Ship extends Polygon implements KeyListener {
 	 * Method move: simply moves the ship when keys are pressed
 	 * Also allows ship to appear on opposite side when its out off bound
 	 */
-	public void move() {
+	public void move(int level) {
+                ReadFile rf = new ReadFile();
+                rf.openFile();
+                rf.readFile();
+                
 		// added to track which direction it is going
 		double prevPosX = position.x;
 		double prevPosY = position.y;
-		int speed = 0;
+		double speed = 0;
 		if (upKey) {
 			// speed of the ship changes when space is pressed
 			if (space) {
-				speed = 5;
+				speed = 5*rf.GetObjectlVelocity(level, "ship");
 			} else {
-				speed = 2;
+				speed = 2*rf.GetObjectlVelocity(level, "ship");
 			}
 			position = new Point(position.x
 					+ (speed * Math.cos(Math.toRadians(rotation))), position.y
