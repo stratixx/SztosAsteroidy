@@ -9,12 +9,12 @@ public class Asteroid extends Polygon{
         
 	Random random = new Random();
 	int speed = random.nextInt(3) + 1;
-	boolean hit;
+	boolean hit=false;
 	
 	public Asteroid(Point pos) {
 		//Point posi = pos();
 		super(astShape(), pos, setRot(pos));
-                hit=false;
+                
                 
 	}
         
@@ -30,6 +30,8 @@ public class Asteroid extends Polygon{
         public void changeShape(){
             this.shape=smallAstShape();
         }
+        
+        
 	
 	/**
 	 * Method astShap: creates random shape for asteroid.

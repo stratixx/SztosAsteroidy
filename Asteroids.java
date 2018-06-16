@@ -18,8 +18,9 @@ package asteroidymodyfikacja;
  * 7. added immunity after you lose a live. (only 3 seconds)
  * 8. added pause button with key p.
  * 9. added stars to the background
- * 10. added bullets. get 1000 points for each asteroid shot.
- * 11. added way to cheat. press p before reaching 2500 points and then press 1,2,3,4 at the same time. 
+ * 10. added bullets. get 1000 points for small asteroid shot.
+ * 11. added bullets. get 500 points for big asteroid shot.
+ * 12. added way to cheat. press p before reaching 2500 points and then press 1,2,3,4 at the same time. 
  * This make your score 500000 therefore activating impossible mode. 
  * All game features coded by Josue Rojas
  */
@@ -47,11 +48,12 @@ class Asteroids extends Game implements ComponentListener{
 	Ship ship = new Ship();
 	// number of lives
 	int live = 3;
-	// vector of asteroids, starts with 5
-	Vector asV = Asteroid.astV(5);
+	// vector of asteroids, starts with a number of asteroids indicated in text file 
+	Vector asV = Asteroid.astV(getInnitialAsteroidsNumber());
         ReadFile rf = new ReadFile();
         boolean alreadyExecuted = false;
         int helpful=0; //used when changing levels in paint method
+        boolean end=false;
         
         
         
@@ -63,6 +65,7 @@ class Asteroids extends Game implements ComponentListener{
         int time=0;
 	//score value
 	int scoreIn = 0;
+        int scoreInsmall=0;
         //
                 
         Bullet[] bullets = Bullet.bullets(3);
@@ -85,7 +88,7 @@ class Asteroids extends Game implements ComponentListener{
         String name;
 
 	public Asteroids() {
-		super("Asteroids v2.1", w, h);
+		super("Asteroids", w, h);
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(ship);
@@ -110,7 +113,24 @@ class Asteroids extends Game implements ComponentListener{
            
         }
         
-        public void readFile(int i, int level, String name){
+         public int getInnitialAsteroidsNumber(){
+            ReadFile r = new ReadFile();
+            r.openFile();
+            r.readFile();
+            int a=r.GetAstNumber(1);
+            return a;
+         }
+        
+        
+        
+        public Asteroid getSmallAsteroid(Point pos){
+            Asteroid asteroid = new Asteroid(pos);
+            asteroid.changeShape();
+            asteroid.hit=true;
+            return asteroid;
+        }
+        
+       /* public void readFile(int i, int level, String name){
             ReadFile r = new ReadFile();
             r.openFile();
             r.readFile();
@@ -131,7 +151,7 @@ class Asteroids extends Game implements ComponentListener{
                     System.out.println("Error connected with reading file");
             
         }
-        }
+        }*/
         
 
 	public void paint(Graphics brush) {
@@ -195,6 +215,19 @@ class Asteroids extends Game implements ComponentListener{
 				}
 
 			}
+                        
+                        else if(end){
+                            brush.setColor(Color.white);
+                            brush.setFont(new Font("Dialog", Font.BOLD, 24));
+		            brush.drawString("CONGRATULATIONS", 360, 100);
+		            brush.drawString("YOU", 360, 120);
+		            brush.drawString("WON!", 330, 140);
+                            brush.drawString("SCORE:" + score, 330, 160);
+                            brush.drawString("Press W button to enter your name:", 330, 180);
+                            //here is a place for a name window to type your name 
+			    brush.setFont(new Font("Dialog", Font.PLAIN, 16));
+                            
+                        }
 
 			else {
 				brush.setColor(Color.white);
@@ -271,7 +304,7 @@ class Asteroids extends Game implements ComponentListener{
 						brush.setColor(Color.pink);
 						((Asteroid) asV.elementAt(i)).paint(brush);
 						((Asteroid) asV.elementAt(i)).move();
-						// crash with ship
+						// crash with ship : asteroid is destroyed
 						if (ship.intersection(((Asteroid) asV.elementAt(i))) && immunity > 300 ) {
                                                         
                                                         
@@ -281,13 +314,7 @@ class Asteroids extends Game implements ComponentListener{
 							((Asteroid) asV.elementAt(i)).reset();
                                                        // ((Asteroid) asV.elementAt(i)).changeShape();
                                                         //asV.add(i)
-                                                        ((Asteroid) asV.elementAt(i)).hit=true;
-                                                    
-                                                   
-                                                        
-                                                        
-                                                        
-							//asV.(i);
+                                                        //asV.(i);
 							astDestroyed++;
 							shipDestroyed++;
 							// delay for end screen
@@ -297,52 +324,25 @@ class Asteroids extends Game implements ComponentListener{
 							// break or it will cause problems in the next line
 							break;
 						}
-                                                //second srash with a ship
-                                                if (ship.intersection(((Asteroid) asV.elementAt(i))) && immunity > 300) {
-                                                        
-                                                        
-							live--;
-							immunity = 0;
-							ship.reset();
-							//((Asteroid) asV.elementAt(i)).reset();
-                                                        ((Asteroid) asV.elementAt(i)).changeShape();
-                                                        ((Asteroid) asV.elementAt(i)).hit=true;
-                                                    
-                                                   
-                                                        live--;
-                                                        immunity=0;
-                                                        ship.reset();
-                                                        ((Asteroid) asV.elementAt(i)).reset();
-                                                    
-                                                        
-                                                        
-                                                        
-							//asV.(i);
-							astDestroyed++;
-							shipDestroyed++;
-							// delay for end screen
-							if (live == 0) {
-								delay = 0;
-							}
-							// break or it will cause problems in the next line
-							break;
-						}
-						// crash with bullet
+                                      
+						// crash with bullet : big asteroid breaks into two smaller asteroids
 						if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square)
-								&& bullets[bullet].shoot == true) {
+								&& bullets[bullet].shoot == true && ((Asteroid) asV.elementAt(i)).hit==false) {
+                                                        ((Asteroid) asV.elementAt(i)).hit=true;
+                                                        ((Asteroid) asV.elementAt(i)).changeShape();
+                                                        asV.add(i+1, getSmallAsteroid(((Asteroid)asV.elementAt(i)).position));
+                                                        score += scoreIn;
+                                                        bullets[bullet].counter = 50; //Its better to set smaller counter or a counter depeding on the level
+                                                        
+							//((Asteroid) asV.elementAt(i)).reset();
+                                                        }
+                                                //second crash with bullet : small asteroid disappears
+                                               if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square) && bullets[bullet].shoot == true && ((Asteroid) asV.elementAt(i)).hit==true) {
 							((Asteroid) asV.elementAt(i)).reset();
-							score += scoreIn;
+							score += scoreInsmall;
 							astDestroyed++;
 							bullets[bullet].counter = 50;
 						}
-                                                //second crash with bullet
-                                               /* if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square)
-								&& bullets[bullet].shoot == true) {
-							((Asteroid) asV.elementAt(i)).reset();
-							score += scoreIn;
-							astDestroyed++;
-							bullets[bullet].counter = 50;
-						}*/
 					}
 			
 					//the next few lines of code is for handling score, crashes and asteroid adding
@@ -350,27 +350,28 @@ class Asteroids extends Game implements ComponentListener{
 					brush.setColor(Color.white);
 					if (time < rf.getTotalGameTime()) {
 						brush.drawString("Level: " + level, 10, 60);
-						scoreIn = 1000;
+						scoreIn = 500;
+                                                scoreInsmall=1000;
 						//add another asteroid
                                                 //level change
 						//if (level < ((int) (score / 1000) + 1)) {
                                                 if((time-helpful)>rf.getPlayTime(level)){
-                                                   // System.out.println(level);
+                                                  
                                                    //helpful trick to solve my problem during level change
                                                     helpful+=rf.getPlayTime(level);
-							// add the number of asteroids indicated in config.txt 
-                                                        level+=1;
-                                                    //System.out.println(level);
-                                                        
-                                                        for(int i=0; i<rf.GetAstNumber(level); i++) {
+					           // add the number of asteroids indicated in config.txt 
+                                                   level+=1;
+                                                    
+                                                        int astToAdd=rf.GetAstNumber(level)-rf.GetAstNumber(level-1);
+                                                        for(int i=0; i<astToAdd; i++) {
 							asV.addElement(new Asteroid(Asteroid.pos()));
                                                        }
                                                         
 						}
 					} else {
 						//too many asteroids so none are added here
-						brush.drawString("Congratulations! You won!", 10, 60);
-						scoreIn = 2000;
+						//brush.drawString("Congratulations! You won!", 10, 60);
+					        end=true;
 					}
 
 
@@ -416,10 +417,11 @@ class Asteroids extends Game implements ComponentListener{
 						bullets[bullet].counter = 50;
 						statChange = false;
 						ship.reset();
-						asV = Asteroid.astV(5);
+						asV = Asteroid.astV(getInnitialAsteroidsNumber());
 						delay = 0;
                                                 alreadyExecuted = false;
                                                 helpful=0;
+                                                end=false;
 
 					}
 				}
@@ -429,7 +431,10 @@ class Asteroids extends Game implements ComponentListener{
 	}
 
 	public static void main(String[] args) {
-		MainWindow a = new MainWindow(700,400);
+                ReadFile rf= new ReadFile();
+                rf.openFile();
+                rf.readFile();
+		MainWindow a = new MainWindow(rf.height,rf.width);
                
 		
 
