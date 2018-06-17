@@ -58,7 +58,7 @@ public class MainWindow extends Canvas implements ActionListener{
 		{
 			
 			Asteroids a = new Asteroids();
-		        a.repaint();
+		        //a.repaint();
 			
 			
 			

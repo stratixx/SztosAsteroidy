@@ -121,9 +121,10 @@ public class ReadFile {
 			    throw new IllegalArgumentException("Unknown sign in configuration file");
                         }
                       }
-             System.out.println(list);
+             //System.out.println(list);
              int astvel=(int) list.get(23);
-             System.out.println(astvel);
+             //System.out.println(astvel);
+             
                     sc.close();
                     }
         
