@@ -16,6 +16,7 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
   protected boolean on = true;
   protected int width, height;
   protected BufferedImage buffer;
+  protected Graphics2D buffGraphics;  
   protected Frame frame;
   
         // width and height scale
@@ -43,6 +44,9 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
             Timer timer = new Timer(1000/30, this);
             timer.setInitialDelay(0);
             timer.start();
+            
+            buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            buffGraphics = new GraphicsScallable(buffer.createGraphics(),scaleW,scaleH);
         }
   
   // 'paint' will be called every tenth of a second that the game is on.
@@ -56,8 +60,7 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
     {      
         Graphics2D gS = (Graphics2D)brush;
 
-        buffer = new BufferedImage((int)(1000.0*width*scaleW)/1000, (int)(1000.0*height*scaleH)/1000,BufferedImage.TYPE_INT_ARGB);
-        paintAll(new GraphicsScallable(buffer.createGraphics(),scaleW,scaleH));  
+        paintAll(buffGraphics);  
         gS.drawImage(buffer,0,0,frame);
     }
 
@@ -69,7 +72,8 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
   
 
     @Override
-    public void componentResized(ComponentEvent e) {        
+    public void componentResized(ComponentEvent e) {   
+        /*
         Frame frame = (Frame)e.getComponent();
         Rectangle fBounds = frame.getBounds();         
         Insets fInsets = frame.getInsets();
@@ -78,7 +82,13 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
         scaleW = ((100000*fBounds.width-fInsets.left-fInsets.right+width/2)/width)/100000.0;
         scaleH = ((100000*fBounds.height-frame.getInsets().top-frame.getInsets().bottom+height/2)/height)/100000.0;
         //repaint();
-
+        */
+        double w = e.getComponent().getWidth();
+        double h = e.getComponent().getHeight();
+        scaleW = w/width;
+        scaleH = h/height;
+        buffer = new BufferedImage((int)w,(int)h, BufferedImage.TYPE_INT_ARGB);
+        buffGraphics = new GraphicsScallable(buffer.createGraphics(),scaleW,scaleH);
     }
 
     @Override
