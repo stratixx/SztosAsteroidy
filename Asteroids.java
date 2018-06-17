@@ -32,6 +32,7 @@ import java.util.Random;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 class Asteroids extends Game implements ComponentListener{
 	// added boolean pause to pause game along with delay for pause
@@ -52,6 +53,7 @@ class Asteroids extends Game implements ComponentListener{
 	Vector asV = Asteroid.astV(getInnitialAsteroidsNumber());
         ReadFile rf = new ReadFile();
         boolean alreadyExecuted = false;
+        boolean alreadyCalled =false;
         int helpful=0; //used when changing levels in paint method
         boolean end=false;
         
@@ -224,8 +226,21 @@ class Asteroids extends Game implements ComponentListener{
 		            brush.drawString("WON!", 330, 140);
                             brush.drawString("SCORE:" + score, 330, 160);
                             brush.drawString("Press W button to enter your name:", 330, 180);
-                            //here is a place for a name window to type your name 
+                            //here is a place for a name window to type gamers name 
 			    brush.setFont(new Font("Dialog", Font.PLAIN, 16));
+                            
+                            if(ship.wKey){
+                                
+                            NameWindow nw = new NameWindow(400,404);
+                                /*if(!alreadyCalled){
+                                 JFrame frame = new JFrame("Test");
+                                 frame.add(new NameWindow());
+                                 frame.setVisible(true);
+                                 frame.setSize(300, 300);
+                                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                 alreadyCalled =true;
+                            }*/
+                            }
                             
                         }
 
@@ -371,7 +386,9 @@ class Asteroids extends Game implements ComponentListener{
 					} else {
 						//too many asteroids so none are added here
 						//brush.drawString("Congratulations! You won!", 10, 60);
+                                                alreadyExecuted=false;
 					        end=true;
+                                                
 					}
 
 
@@ -382,12 +399,41 @@ class Asteroids extends Game implements ComponentListener{
 					brush.drawString("GAME", 360, 100);
 					brush.drawString("OVER", 360, 120);
 					brush.drawString("Score:" + score, 330, 140);
+                                        brush.drawString("Press W button to enter your name:", 330, 180);
 					brush.setFont(new Font("Dialog", Font.PLAIN, 16));
+                                       
+                           
+                            
+                                        if(ship.wKey && delay>30 && !alreadyCalled){
+                                       
+                                         NameWindow nw = new NameWindow(400,404);
+                                         alreadyCalled=true;
+                                        /*JFrame frame = new JFrame("Enter your name");
+                                        frame.add(new NameWindow());
+                                        frame.setVisible(true);
+                                        frame.setSize(rf.height, rf.width);
+                                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                        Timer timer = new Timer(3000, new ActionListener() {
+                                        public void actionPerformed(ActionEvent e) {
+                                        frame.setVisible(false);
+                                        frame.dispose();
+                                        }
+                                        });
+                                        timer.setRepeats(false);
+                                        timer.start();
+
+                                        frame.setVisible(true); // if modal, application will pause here
+
+                                        System.out.println("Dialog closed");
+
+                                        alreadyCalled =true;
+                                        
+                                        */}
 					int posX = 180;
 					try {
 						// to avoid it being written over and over statChange
 						// must change to true until it is reset
-						if (statChange == false) {
+						if (!statChange) {
 							File.highscore(score);
 							File.destroyed(astDestroyed, shipDestroyed);
 							statChange = true;
@@ -405,7 +451,7 @@ class Asteroids extends Game implements ComponentListener{
 
 					// reset game
 					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
-							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
+							|| ship.shift || ship.one || ship.two || ship.three || ship.four || ship.wKey) && delay > 150) {
 						immunity = 300;
 						live = 3;
 						score = 0;
@@ -420,6 +466,7 @@ class Asteroids extends Game implements ComponentListener{
 						asV = Asteroid.astV(getInnitialAsteroidsNumber());
 						delay = 0;
                                                 alreadyExecuted = false;
+                                                alreadyCalled =false;
                                                 helpful=0;
                                                 end=false;
 
@@ -428,13 +475,16 @@ class Asteroids extends Game implements ComponentListener{
 
 			}
 		
-	}
+	
+        
+        }
 
 	public static void main(String[] args) {
                 ReadFile rf= new ReadFile();
                 rf.openFile();
                 rf.readFile();
 		MainWindow a = new MainWindow(rf.height,rf.width);
+                 
                
 		
 

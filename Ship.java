@@ -20,6 +20,7 @@ public class Ship extends Polygon implements KeyListener {
 	boolean two = false;
 	boolean three = false;
 	boolean four = false;
+        boolean wKey = false;
 	static Point[] ship = { new Point(0, 0), new Point(10, 10),
 			new Point(0, 20), new Point(20, 10) };
 	//shape for the thrust, or when the user presses 'space'
@@ -117,6 +118,9 @@ public class Ship extends Polygon implements KeyListener {
 			pKey = true;
 			//delay++;
 			break;
+                case 87:
+                        wKey= true;
+                        break;
 		default:
 			otherKey = true;
 
@@ -160,6 +164,9 @@ public class Ship extends Polygon implements KeyListener {
 		case 80:
 			pKey = false;
 			break;
+                case 87:
+                        wKey= true;
+                        break;
 		default:
 			otherKey = false;
 
