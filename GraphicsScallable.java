@@ -1,14 +1,28 @@
 package asteroidymodyfikacja;
 
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
 import java.awt.Image;
+import java.awt.Paint;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
+import java.awt.image.renderable.RenderableImage;
 import java.text.AttributedCharacterIterator;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,13 +34,13 @@ import java.text.AttributedCharacterIterator;
  *
  * @author Anonymous
  */
-public class GraphicsScallable extends Graphics {
+public class GraphicsScallable extends Graphics2D {
 
-    private Graphics graphics;
+    private Graphics2D graphics;
     private double scaleW;
     private double scaleH;
     
-    GraphicsScallable( Graphics newGraphics, double newScaleW, double newScaleH  )
+    GraphicsScallable( Graphics2D newGraphics, double newScaleW, double newScaleH  )
     {
         graphics = newGraphics;
         scaleW = newScaleW;
@@ -230,7 +244,7 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void setFont(Font font) {
-        font = font.deriveFont(  (float)(1000.0*font.getSize2D()*(scaleH*4.0/5.0+scaleW*1.0/5.0))/1000  );
+        font = font.deriveFont(  (float)(1000.0*font.getSize2D()*(scaleH*1.0/10.0+scaleW*9.0/10.0))/1000  );
         graphics.setFont(font);
     }
 
@@ -261,6 +275,176 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void setClip(Shape clip) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void draw(Shape s) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawString(String str, float x, float y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawString(AttributedCharacterIterator iterator, float x, float y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void drawGlyphVector(GlyphVector g, float x, float y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void fill(Shape s) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GraphicsConfiguration getDeviceConfiguration() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setComposite(Composite comp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPaint(Paint paint) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setStroke(Stroke s) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setRenderingHint(RenderingHints.Key hintKey, Object hintValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getRenderingHint(RenderingHints.Key hintKey) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setRenderingHints(Map<?, ?> hints) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addRenderingHints(Map<?, ?> hints) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public RenderingHints getRenderingHints() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void translate(double tx, double ty) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void rotate(double theta) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void rotate(double theta, double x, double y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void scale(double sx, double sy) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void shear(double shx, double shy) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void transform(AffineTransform Tx) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setTransform(AffineTransform Tx) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AffineTransform getTransform() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Paint getPaint() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Composite getComposite() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setBackground(Color color) {
+        graphics.setBackground(color);
+    }
+
+    @Override
+    public Color getBackground() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Stroke getStroke() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void clip(Shape s) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public FontRenderContext getFontRenderContext() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

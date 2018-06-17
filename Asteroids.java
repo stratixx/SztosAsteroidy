@@ -152,7 +152,7 @@ class Asteroids extends Game{
         }*/
         
 
-	public void paint(Graphics brush) {                
+	public void paintAll(Graphics brush) {                
 		delay++;
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, w+250, h+250);

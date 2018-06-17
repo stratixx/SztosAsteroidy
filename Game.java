@@ -9,12 +9,13 @@ Original code by Dan Leyzberg and Art Simon
 */
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
 abstract class Game extends Canvas implements ComponentListener, ActionListener{
   protected boolean on = true;
   protected int width, height;
-  protected Image buffer;
+  protected BufferedImage buffer;
   protected Frame frame;
   
         // width and height scale
@@ -45,27 +46,26 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
         }
   
   // 'paint' will be called every tenth of a second that the game is on.
-	abstract public void paint(Graphics brush);
-  
+	abstract public void paintAll(Graphics brush);
+  Boolean paintAllow = false;
   // 'update' paints to a buffer then to the screen, then waits a tenth of
   // a second before repeating itself, assuming the game is on. This is done
   // to avoid a choppy painting experience if repainted in pieces.
-  @Override
-  public void update(Graphics brush) 
-  {
-      buffer = createImage((int)(1000.0*width*scaleW)/1000, (int)(1000.0*height*scaleH)/1000);
-      //System.out.println("update");
-      paint(new GraphicsScallable(buffer.getGraphics(),scaleW,scaleH));      
-      brush.drawImage(buffer,0,0,this);
-      //if (on) {sleep(1000/30); repaint();}
-      //repaint();  
-  }
-  
-  @Override
-  public void actionPerformed(ActionEvent e) 
-  {
-      repaint();
-  }
+    @Override
+    public void update(Graphics brush) 
+    {      
+        Graphics2D gS = (Graphics2D)brush;
+
+        buffer = new BufferedImage((int)(1000.0*width*scaleW)/1000, (int)(1000.0*height*scaleH)/1000,BufferedImage.TYPE_INT_ARGB);
+        paintAll(new GraphicsScallable(buffer.createGraphics(),scaleW,scaleH));  
+        gS.drawImage(buffer,0,0,frame);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) 
+    {
+        repaint();
+    }
   
 
     @Override
@@ -77,7 +77,7 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
                 
         scaleW = ((100000*fBounds.width-fInsets.left-fInsets.right+width/2)/width)/100000.0;
         scaleH = ((100000*fBounds.height-frame.getInsets().top-frame.getInsets().bottom+height/2)/height)/100000.0;
-        repaint();
+        //repaint();
 
     }
 
