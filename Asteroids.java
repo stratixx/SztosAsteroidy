@@ -34,7 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-class Asteroids extends Game implements ComponentListener{
+class Asteroids extends Game{
 	// added boolean pause to pause game along with delay for pause
 	static boolean pause = false;
 	// delay is used for pause, start of game and the ending
@@ -77,9 +77,6 @@ class Asteroids extends Game implements ComponentListener{
 	JFrame frame;
 
 	//width and height
-        // width and height scale
-        static double scaleW = 1;
-        static double scaleH = 1;
 	static int w = getWindowWidthorHeight("width");
 	static int h = getWindowWidthorHeight("height");
 
@@ -91,10 +88,9 @@ class Asteroids extends Game implements ComponentListener{
 
 	public Asteroids() {
 		super("Asteroids", w, h);
-		this.setFocusable(true);
+		//this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(ship);
-                this.addComponentListener(this);
                 
 	}
         
@@ -156,12 +152,10 @@ class Asteroids extends Game implements ComponentListener{
         }*/
         
 
-	public void paint(Graphics brush) {
-                brush = new GraphicsScallable(brush, scaleW, scaleH);
-                
+	public void paint(Graphics brush) {                
 		delay++;
 		brush.setColor(Color.black);
-		brush.fillRect(0, 0, w, h);
+		brush.fillRect(0, 0, w+250, h+250);
                 
                 if(!alreadyExecuted) {
                 rf.openFile();
@@ -490,33 +484,4 @@ class Asteroids extends Game implements ComponentListener{
 
 	}
 
-    @Override
-    public void componentResized(ComponentEvent e) {
-        
-        Asteroids frame = (Asteroids)e.getComponent();
-        Rectangle fBounds = frame.getBounds();         
-        //Insets fInsets = frame.getInsets();
-        //setSize(frame.getSize());
-        
-        setSize(fBounds.width, fBounds.height);
-                
-        scaleW = ((100000*getSize().width)/width)/100000.0;
-        scaleH = ((100000*getSize().height)/height)/100000.0;
-        repaint();
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

@@ -230,7 +230,7 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void setFont(Font font) {
-        font = font.deriveFont(  (float)(font.getSize2D()*(scaleW+scaleH)/2)  );
+        font = font.deriveFont(  (float)(1000.0*font.getSize2D()*(scaleH*4.0/5.0+scaleW*1.0/5.0))/1000  );
         graphics.setFont(font);
     }
 

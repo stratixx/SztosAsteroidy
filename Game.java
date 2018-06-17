@@ -9,28 +9,40 @@ Original code by Dan Leyzberg and Art Simon
 */
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.Timer;
 
-abstract class Game extends Canvas {
+abstract class Game extends Canvas implements ComponentListener, ActionListener{
   protected boolean on = true;
   protected int width, height;
   protected Image buffer;
+  protected Frame frame;
+  
+        // width and height scale
+        protected double scaleW = 1.0;
+        protected double scaleH = 1.0;
   
 	public Game(String name, int inWidth, int inHeight) {
-	  width = inWidth;
-	  height = inHeight;
+            width = inWidth;
+            height = inHeight;
 	  
-	  // Frame can be read as 'window' here.
-    Frame frame = new Frame(name);
-    frame.add(this);
-    frame.setSize(width,height);
-    frame.setVisible(true);
-    frame.setResizable(true);
-    frame.addWindowListener(new WindowAdapter() { 
-      public void windowClosing(WindowEvent e) {System.exit(0);} 
-    });
-    
-    buffer = createImage(width, height);
-	}
+            // Frame can be read as 'window' here.
+            frame = new Frame(name);
+            frame.add(this);
+            frame.setSize(width,height);
+            frame.setVisible(true);
+            frame.setResizable(true);
+            frame.setFocusable(true);
+            frame.requestFocus();
+            frame.addComponentListener(this);
+            frame.addWindowListener(new WindowAdapter() 
+            {
+                public void windowClosing(WindowEvent e) {System.exit(0);} 
+            });
+            
+            Timer timer = new Timer(1000/30, this);
+            timer.setInitialDelay(0);
+            timer.start();
+        }
   
   // 'paint' will be called every tenth of a second that the game is on.
 	abstract public void paint(Graphics brush);
@@ -38,16 +50,51 @@ abstract class Game extends Canvas {
   // 'update' paints to a buffer then to the screen, then waits a tenth of
   // a second before repeating itself, assuming the game is on. This is done
   // to avoid a choppy painting experience if repainted in pieces.
-  public void update(Graphics brush) {
-    paint(buffer.getGraphics());
-		brush.drawImage(buffer,0,0,this);
-    if (on) {sleep(10); repaint();}
+  @Override
+  public void update(Graphics brush) 
+  {
+      buffer = createImage((int)(1000.0*width*scaleW)/1000, (int)(1000.0*height*scaleH)/1000);
+      //System.out.println("update");
+      paint(new GraphicsScallable(buffer.getGraphics(),scaleW,scaleH));      
+      brush.drawImage(buffer,0,0,this);
+      //if (on) {sleep(1000/30); repaint();}
+      //repaint();  
   }
   
-  // 'sleep' is a simple helper function used in 'update'.
-  private void sleep(int time) {
-    try {Thread.sleep(time);} catch(Exception exc){};
+  @Override
+  public void actionPerformed(ActionEvent e) 
+  {
+      repaint();
   }
+  
+
+    @Override
+    public void componentResized(ComponentEvent e) {        
+        Frame frame = (Frame)e.getComponent();
+        Rectangle fBounds = frame.getBounds();         
+        Insets fInsets = frame.getInsets();
+        
+                
+        scaleW = ((100000*fBounds.width-fInsets.left-fInsets.right+width/2)/width)/100000.0;
+        scaleH = ((100000*fBounds.height-frame.getInsets().top-frame.getInsets().bottom+height/2)/height)/100000.0;
+        repaint();
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
   
 
 }
