@@ -45,8 +45,7 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void fillRect(int x, int y, int width, int height) {
-        graphics.fillRect(x, y, (int)(width*scaleW), (int)(height*scaleH));
-        System.out.println("GraphicsScallable.fillRect() scaleH="+Double.toString(scaleH)+ " scaleW="+ Double.toString(scaleW) );
+        graphics.fillRect(x, y, (int)(1000.0*width*scaleW)/1000, (int)(1000.0*height*scaleH)/1000);
     }
 
     @Override
@@ -66,12 +65,20 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void drawOval(int x, int y, int width, int height) {
-        graphics.drawOval(x, y, width, height);
+        double widthS = width*scaleW;
+        double heightS = height*scaleH;
+        double xS = (widthS-width)/2 + x*scaleW;
+        double yS = (heightS-height)/2 + y*scaleH;
+        graphics.drawOval((int)xS, (int)yS, (int)widthS, (int)heightS);
     }
 
     @Override
     public void fillOval(int x, int y, int width, int height) {
-        graphics.fillOval(x, y, width, height);
+        double widthS = width*scaleW;
+        double heightS = height*scaleH;
+        double xS = (widthS-width)/2 + x*scaleW;
+        double yS = (heightS-height)/2 + y*scaleH;
+        graphics.fillOval((int)xS, (int)yS, (int)widthS, (int)heightS);
     }
 
     @Override
@@ -91,21 +98,63 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+        double xCenter = 0, yCenter = 0;
+        double xCenterS = 0, yCenterS = 0;
+        // Środek wielokąta
+        for( int x:xPoints )
+            xCenter += x;
+        for( int y:yPoints )
+            yCenter += y;
+        xCenter /= xPoints.length;
+        yCenter /= yPoints.length;
+        xCenterS = xCenter*scaleW;
+        yCenterS = yCenter*scaleH;
+        
+        // przesunięcie do zera, przeskalowanie i ponowne przesuniecie zwrotne
+        for( int n=0; n<xPoints.length; n++)
+        {
+            xPoints[n] = (int)((xPoints[n]-xCenter)*scaleW+xCenterS);
+            yPoints[n] = (int)((yPoints[n]-yCenter)*scaleH+yCenterS);
+        }        
+        
         graphics.drawPolygon(xPoints, yPoints, nPoints);
     }
 
     @Override
     public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+        double xCenter = 0, yCenter = 0;
+        double xCenterS = 0, yCenterS = 0;
+        // Środek wielokąta
+        for( int x:xPoints )
+            xCenter += x;
+        for( int y:yPoints )
+            yCenter += y;
+        xCenter /= xPoints.length;
+        yCenter /= yPoints.length;
+        xCenterS = xCenter*scaleW;
+        yCenterS = yCenter*scaleH;
+        
+        // przesunięcie do zera, przeskalowanie i ponowne przesuniecie zwrotne
+        for( int n=0; n<xPoints.length; n++)
+        {
+            xPoints[n] = (int)((xPoints[n]-xCenter)*scaleW+xCenterS);
+            yPoints[n] = (int)((yPoints[n]-yCenter)*scaleH+yCenterS);
+        }        
+        
         graphics.fillPolygon(xPoints, yPoints, nPoints);
     }
 
     @Override
     public void drawString(String str, int x, int y) {
+        x = (int)((1000.0*x*scaleW)/1000);
+        y = (int)((1000.0*y*scaleH)/1000);
         graphics.drawString(str, x, y);
     }
 
     @Override
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
+        x = (int)((1000.0*x*scaleW)/1000);
+        y = (int)((1000.0*y*scaleH)/1000);
         graphics.drawString(iterator, x, y);
     }
 
@@ -181,6 +230,7 @@ public class GraphicsScallable extends Graphics {
 
     @Override
     public void setFont(Font font) {
+        font = font.deriveFont(  (float)(font.getSize2D()*(scaleW+scaleH)/2)  );
         graphics.setFont(font);
     }
 
