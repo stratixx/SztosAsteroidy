@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 /**
  *KLASA:READFILE
  *ZASTOSOWANIE:Klasa która odpowiada za pobieranie danych z pliku konfiguracyjnego oraz wczytywanie wyników do pliku konfiguracyjnego, a także ustalania najwyższego z nich

@@ -3,6 +3,7 @@ package asteroidymodyfikacja;
 *KLASA: Point
 *OPIS: Klasa używana do przechowywania i otrzymywania dostępu do zmiennych
 */
+//martapalka
 
 class Point implements Cloneable {
   double x,y;

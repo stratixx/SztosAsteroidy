@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 /**
  *KLASA: Asteroids
  *OPIS: Dziedziczy po abstrakcyjnej klasie Game 

@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Font;

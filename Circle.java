@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package asteroidymodyfikacja;
-
+//martapalka
 import java.awt.Graphics;
 
 /**

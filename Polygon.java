@@ -3,6 +3,7 @@ package asteroidymodyfikacja;
 import java.awt.Color;
 import java.awt.Graphics;
 
+//martapalka
 /**
 *KLASA: Polygon
 *OPIS: Wielokąt to zbiór punktów w przestrzeni zdefiniowana przez zestaw

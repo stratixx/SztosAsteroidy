@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 /**
  * KLASA: fastMode 
  * OPIS:  Statek jest zastępowany obiektem typu FastMode przy wciśnięciu spacji podczas gry

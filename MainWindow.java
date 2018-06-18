@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 import java.awt.Canvas;
 import java.awt.FlowLayout;
 import java.awt.Dimension;

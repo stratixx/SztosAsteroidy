@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 
 
 import java.util.Random;

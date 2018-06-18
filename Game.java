@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 /*
 CLASS: Game
 OPIS: Płótno w okienku gry 

@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+//martapalka
 
 /**
  * KLASA: Bullet
