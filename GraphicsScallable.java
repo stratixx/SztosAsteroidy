@@ -24,15 +24,12 @@ import java.awt.image.renderable.RenderableImage;
 import java.text.AttributedCharacterIterator;
 import java.util.Map;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- *
- * @author Anonymous
+ *KLASA:GraphicsScallable
+ * OPIS:Określa jak zachodzi skalowanie grafiki
+ * Konstruktor jest wywoływany w klasie Game do stworzenia obiektu buffGraphics
+ * Klasa zaopatrzona w szereg metod wbudowanych określających parametry obiektów różnych typów po skalowaniu
  */
 public class GraphicsScallable extends Graphics2D {
 

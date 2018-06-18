@@ -1,10 +1,7 @@
 package asteroidymodyfikacja;
-/*
-CLASS: Point
-DESCRIPTION: Ah, if only real-life classes were this straight-forward. We'll
-             use 'Point' throughout the program to store and access 
-             coordinates.
-Original code by Dan Leyzberg and Art Simon
+/**
+*KLASA: Point
+*OPIS: Klasa używana do przechowywania i otrzymywania dostępu do zmiennych
 */
 
 class Point implements Cloneable {

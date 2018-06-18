@@ -5,12 +5,25 @@ package asteroidymodyfikacja;
 import java.util.Random;
 import java.util.Vector;
 
+/**
+ *KLASA: Asteroid
+ *OPIS: Dziedziczy po klasie będącej bazą dla każdego obiektu gry (oprócz pocisku) Polygon
+ * 1.Położenie początkowe asteroidy ma charakter losowy (metoda rand())
+ * 2.Dostępne są asteroida mała i duża 
+ * 3.Prędkość asteroidy pobierana jest z pliku konfiguracyjnego
+ */
+
 public class Asteroid extends Polygon{
         
 	Random random = new Random();
         double speed =0;
 	boolean hit;
 	
+        /**
+         * Konstruktor Asteroidy 
+         * Defaultowo zmienna typu boolean mówiąca czy asteroida została trafiona pociskiem jest ustawiona na false
+         * @param pos - pozycja 
+         */
 	public Asteroid(Point pos) {
 		
 		super(astShape(), pos, setRot(pos));
@@ -18,11 +31,10 @@ public class Asteroid extends Polygon{
                 
 	}
         
-        public double getAsteroidVelocity(int level){
-            return 0;
-        }
         
-      
+      /**
+       * Metoda, która umożliwia zresetwanie asteroidy (Po zderzeniu ze statkiem lub z pociskiem)
+       */
 	public void reset(){
 		//need to update this 
 		this.position = Asteroid.pos();
@@ -31,6 +43,9 @@ public class Asteroid extends Polygon{
                 
 	}
         
+        /**
+         * Metoda używana do zmiany kształtu asteroidy (w moim kodzie uzyskujemy małą asteroidę )
+         */
         public void changeShape(){
             this.shape=smallAstShape();
         }
@@ -38,9 +53,7 @@ public class Asteroid extends Polygon{
         
 	
 	/**
-	 * Method astShap: creates random shape for asteroid.
-	 * After all in space I don't think all asteroids are the same.
-	 * Might update this method to create bigger asteroids
+	 * astShap: tu tworzony jest kształt dużej asteroidy (ma on charakter losowy)
 	 */
 	public static Point[] astShape(){
 		Random random = new Random();
@@ -54,7 +67,9 @@ public class Asteroid extends Polygon{
 		};
 		return randAsteroid;
 	}
-        
+        /**
+	 * smallAstShap: tu tworzony jest kształt małej asteroidy (ma on charakter losowy)
+	 */
          public static Point[] smallAstShape(){
 		Random random = new Random();
 		Point[] randAsteroid = {
@@ -71,31 +86,31 @@ public class Asteroid extends Polygon{
        
 	
 	/**
-	 *method puts asteroids in random positons. outside the canvas. 
+	 *Asteroidy są umieszczane w randomowych pozycjach- zazwyczaj poza płótnem gry
 	 *returns Point
 	 */
 	public static  Point pos(){
 		Random random = new Random();
 		int x = 0;
 		int y = 0;
-		//this is to decide which side the asteroid will appear. pseudo-random
+		
 		int pos = random.nextInt(4);
-		//west
+		//lewo
 		if(pos == 0){
 			x = 0;
 			y = random.nextInt(Asteroids.h + 1);
 		}
-		//north
+		//góra
 		else if(pos == 1){
 			x = random.nextInt(Asteroids.w + 1);
 			y = 0;
 		}
-		//east
+		//prawo
 		else if(pos == 2){
 			x = Asteroids.w;
 			y = random.nextInt(Asteroids.h + 1);
 		}
-		//
+		//dół
 		else if(pos == 3){
 			x = random.nextInt(Asteroids.w + 1);
 			y = Asteroids.h;
@@ -105,31 +120,30 @@ public class Asteroid extends Polygon{
 	}
 	
 	/**
-	 *method: rotation is set depending on the position. 
-	 *this is to avoid asteroids at the start not showing up, or going outside at the starts. 
-	 *better said is when they start they go towards around the center.
+	 *method: rotację ustawiamy w zależności od pozycji asteroidy
+	 *w ten sposób unikamy sytuacji, że asteroida się nie pojawi albo odrazu skieruje się po za płótno gry
 	 */
 	public static  double setRot(Point position){
 		Random random = new Random();
-		//the canvas gets divided into 4 parts
-		//west side
+		
+		//prawa część płótna
 		if(position.x < (Asteroids.w/2)){
-			//north west
+			//góra
 			if(position.y < (Asteroids.h/2)){
-				return random.nextInt(61-30) + 30;
+				return random.nextInt(63-29) + 30;
 			}
-			//south west
+			//dół
 			else{
-				return random.nextInt(331-300) + 300;
+				return random.nextInt(329-300) + 300;
 			}
 		}
-		//east side
+		//lewa część płótna
 		else{
-			//north east
+			//góra
 			if(position.y < (Asteroids.h/2)){
 				return random.nextInt(151-120) + 120;
 			}
-			//south east
+			//dół
 			else{
 				return random.nextInt(241-210) + 210;
 			}
@@ -137,9 +151,9 @@ public class Asteroid extends Polygon{
 	}
 
 	/**
-	 * asT creates a vector with n size of Asteroid objects
-	 * @param n number of elements
-	 * @return vector of Asteroid
+	 * asT tworzy wektor asteroid potrzebny w metodzie paint w klasie Asteroids()
+	 * @param n liczba asteroid w wektorze
+	 * @return wektor złożony z asteroid
 	 */
 	public static Vector astV(int n){
 		Vector v = new Vector();
@@ -151,8 +165,8 @@ public class Asteroid extends Polygon{
 	}
 	
 	/**
-	 * Method move: just simply makes the asteroid(s) move around the canvas
-	 * also if the get out bound they will appear on the opposite side
+	 * move sprawia, że asteroida zaczyna się poruszać z prędkością zależną od poziomu 
+         * jeśli asteroida wyleci po za ekran, pojawi się symetrycznie z drugiej strony
 	 */
 	public void move(int level){
 		double prevPosX = position.x;

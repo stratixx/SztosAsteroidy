@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package asteroidymodyfikacja;
 
 /**
- *Klasa która odpowiada za pobieranie danych z pliku konfiguracyjnego
+ *KLASA:READFILE
+ *ZASTOSOWANIE:Klasa która odpowiada za pobieranie danych z pliku konfiguracyjnego oraz wczytywanie wyników do pliku konfiguracyjnego, a także ustalania najwyższego z nich
  */
 
 
@@ -22,7 +18,6 @@ import java.util.List;
 import java.util.Scanner;
 
 
-
 public class ReadFile {
 	  int height;
 	  int width;
@@ -30,10 +25,10 @@ public class ReadFile {
 	protected  int y;
         private Scanner sc;
         List list;
-/**
- * 	Konstruktor klasy Scaner: ustawia docelowa sciezke do pliku konfiguracyjnego;
- *  pozwala ustawic dogodne parametry jak naprzyklad polozenie obiektu
- */
+        
+        /**
+         * Metoda tworząca nowy obiekt typu scaner, który będzie pobierał dane z pliku config.txt
+         */
         public void openFile(){
             try{
                
@@ -49,7 +44,9 @@ public class ReadFile {
         }
         
         
-        
+        /**
+         * Metoda zczytująca dane z pliku konfiguracyjnego
+         */
         public void readFile(){
             list = new ArrayList();
             while (sc.hasNext()){
@@ -128,7 +125,12 @@ public class ReadFile {
              
                     sc.close();
                     }
-        
+       
+       /**
+        * Metoda pozwalająca na wczytanie pięciu najlepszych wyników do pliku results.txt
+        * 
+        * @throws IOException 
+        */
        public static void write(String[] input) throws IOException{
 		String stat = "results.txt";
 		FileWriter writer = new FileWriter(stat);
@@ -149,6 +151,12 @@ public class ReadFile {
 			System.err.println("Error");
 		}
 	}
+       
+       /**
+        * Metoda pozwalająca na zczytanie wyników z pliku results.txt
+        * 
+        * @throws FileNotFoundException 
+        */
         public static String[] read() throws FileNotFoundException {
 		String stat = "results.txt";
 		FileReader read = new FileReader(stat);
@@ -169,7 +177,11 @@ public class ReadFile {
 		}
 		return lines;
 	}
-        
+        /**
+         * Metoda umożliwiająca ustalenie najlepszego wyniku oraz zastąpienie nim w liście obecnie najsłabszego wyniku
+         * @param n - potencjalny highScore
+         * @throws IOException 
+         */
         public static void highscore(int n) throws IOException{
 		//read file first
 		String[] stat = read();
@@ -219,7 +231,11 @@ public class ReadFile {
     
         
         
-        
+        /**
+         * Metoda pomocnicza zwracająca ilość asteroid w wybranym poziomie
+         * @param level
+         * @return 
+         */
         public int GetAstNumber(int level){
             int astNumber;
              switch(level){
@@ -247,7 +263,12 @@ public class ReadFile {
             
             
         }
-        
+        /**
+         * Metoda pomocnicza zwracająca prędkość obiektu w wybranym poziomie
+         * @param level
+         * @param objectName "asteroid"-zwraca prędkość asteroidy/ "ship"- zwraca prędkość statku
+         * @return 
+         */
         public double GetObjectlVelocity(int level, String objectName){
             double astVel, shipVel;
             if(objectName.equals("asteroid"))
@@ -306,6 +327,11 @@ public class ReadFile {
             
         }
         
+        /**
+         * Metoda pomocnicza zwracająca czas gry włąściwy dla danego poziomu
+         * @param level
+         * @return 
+         */
         public int getPlayTime(int level){
             int time;
              switch(level){
@@ -333,7 +359,9 @@ public class ReadFile {
             
             
         }
-        
+        /**
+        Metoda pomocnicza zwracająca całkowity czas gry- po jego upłynięciu gracz wygrywa 
+        */
         public int getTotalGameTime(){
             int totTime=(int)list.get(7)+(int)list.get(11)+(int)list.get(15)+(int)list.get(19)+(int)list.get(23);
             return totTime;

@@ -1,12 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package asteroidymodyfikacja;
 
 
-
+/**
+ * KLASA: Bullet
+ * OPIS: Odpowiedzialna jest za tworzenie pocisku
+ * 1.Obiekt pocisku jest sprzężony ze statkiem (ich pozycje są jednakowe jeśli pocisk nie został wystrzelony)
+ * 2.Zmienna boolean shoot określa stan pocisku 
+ * 3.Zmienna ounter pozwala sterować zasięgiem i opóźnieniem pocisku- ulega zmniejszeniu w zależności od poziomu, gdyż jest coraz więcej asteroid
+ */
 public class Bullet extends Circle {
 	static Point pos = Ship.pos;
 	boolean shoot = false;
@@ -16,13 +17,20 @@ public class Bullet extends Circle {
 	Point[] sqr = { new Point(0, 0), new Point(0, 5), new Point(5, 5),
 			new Point(5, 0) };
 	Polygon square;
-
-	public Bullet() {
+        
+        /**
+         * Konstruktor klasy Bullet 
+         * Zostaje utworzony nowy wielokąt (kwadrat) o określonej pozycji i rotacji
+         */
+        public Bullet() {
 		super(pos, 5);
 		square = new Polygon(sqr, position, rot);
 
 	}
-        
+        /**
+         * Metoda pozwalająca na zmianę pola counter w zależności od poziomu
+         * @param level 
+         */
         public void setCounterLimit(int level){
             
             switch(level){
@@ -46,11 +54,19 @@ public class Bullet extends Circle {
                     
             }
         }
-        
+        /**
+         * 
+         * @param level
+         * @return Zwraca ograniczenie countera dla danego poziomu
+         */
         public int getCounterLimit(int level){
             return counterLimit;
         }
-
+        /**
+         * Tworzona jest tablica pocisków
+         * @param n ile pocisków ma zostać utworzonych
+         * @return zwraca tablicę pocisków
+         */
 	public static Bullet[] bullets(int n) {
 		Bullet[] bullets = new Bullet[n];
 		for (int i = 0; i < n; i++) {
@@ -58,7 +74,11 @@ public class Bullet extends Circle {
 		}
 		return bullets;
 	}
-
+        /**
+         * Metoda umożliwiająca ruch pocisku (jeśli shoot=0 to wraz ze statkiem jeśli natomiast wynosi 1, to odzielnie)
+         * @param s-statek
+         * @param level 
+         */
 	public void move(Ship s , int level) {
                 setCounterLimit(level);
 		counter++;

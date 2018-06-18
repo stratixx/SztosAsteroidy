@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package asteroidymodyfikacja;
 
 import java.awt.Dimension;
@@ -14,8 +9,9 @@ import java.io.FileNotFoundException;
 import javax.swing.JLabel;
 
 /**
- *
- * @author martapalka
+ * KLASA:ResultsWindow
+ * OPIS: Okienko z pięcioma najlpeszymi wynikami
+ * 
  */
 public class ResultsWindow extends Frame{
   //  protected JTextArea textArea;

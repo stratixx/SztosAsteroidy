@@ -1,37 +1,47 @@
 package asteroidymodyfikacja;
 
-//import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+/**
+ * KLASA:Ship
+ * OPIS:Klasa która odpowiada za statek. Statek reaguje na przyciski:
+ * 1.Shift-strzał
+ * 2.P-pauza
+ * 3.spacja-przyspieszenie
+ * 4.góra-do przodu
+ * 5.lewo-obrót w lewo
+ * 6.prawo-obrót w prawo
+ * 7.Dowolny przycisk- nowa gra
+ * 
+ */
 public class Ship extends Polygon implements KeyListener {
-	//int delay = 0;
+	
 	static double speed = 0;
 	//keys
 	boolean shift = false;
 	boolean pKey = false;
 	boolean space = false;
 	boolean upKey = false;
-	boolean downKey = false;
 	boolean leftKey = false;
 	boolean rightKey = false;
 	boolean otherKey = false;
-	boolean one = false;
-	boolean two = false;
-	boolean three = false;
-	boolean four = false;
         boolean wKey = false;
+        //kształt statku bez wciśniętej spacji- normalna prędkość
 	static Point[] ship = { new Point(0, 0), new Point(10, 10),
 			new Point(0, 20), new Point(20, 10) };
-	//shape for the thrust, or when the user presses 'space'
+	//kształt statku w nadświetlnej
 	static Point[] boost = { new Point(0, 0), new Point(20, 10),
 			new Point(0, 20), new Point(-12, 15), new Point(-10, 12),
 			new Point(-20, 10), new Point(-10, 8), new Point(-12, 5) };
 	static int rot = 0;
-        //ReadFile r = new ReadFile();
+       
 	static Point pos = new Point( getShipPosition("x"), getShipPosition("y"));
 	
-        
+        /**
+         * Metoda pozwalająca na pobranie początkowej pozycji statku przy jego malowaniu (z pliku config.txt)
+         * @param xy
+         * @return 
+         */
         static public int getShipPosition(String xy){
             
             ReadFile r = new ReadFile();
@@ -48,38 +58,30 @@ public class Ship extends Polygon implements KeyListener {
         }
         
 	
-	//thrust image
-	//non static because it is always unique for every ship
+	
+        //kształt statu w nadświetlnej
 	Polygon thrust = new Polygon(boost, new Point(pos.x -15,pos.y), rot);
 
-
+        
 	public Ship() {
 		super(ship, pos, rot);
 
 	}
 	/**
-	 * Method reset: resets the ship and thrust to original position and rotation
+	 * Przywraca statek (niezależnie od kształtu) do początkowej pozycji
 	 */
 	public void reset() {
-		// default values
+		
 		this.rotation = 0;
 		this.position = new Point(getShipPosition("x"), getShipPosition("y"));
 		this.thrust = new Polygon(boost, new Point(pos.x -15,pos.y), rot);
 	}
 
-	/**
-	 *Method live: creates and returns array of Ship. representing lives in the game
-	 *not needed anymore with code updated
-	 */
-	public static Ship[] lives(int n) {
-		// create empty array for ships
-		Ship[] output = new Ship[n];
-		for (int i = 0; i < n; i++) {
-			output[i] = new Ship();
-		}
-		return output;
-	}
 	
+	/**
+         * Pozwala na identyfikację przycisku z klawiatury (za pomocą id przycisku) i oppowiednią reakcję
+         * @param e 
+         */
 	public void keyPressed(KeyEvent e) {
 		int id = e.getKeyCode();
 		switch (id) {
@@ -98,25 +100,9 @@ public class Ship extends Polygon implements KeyListener {
 		case 39:
 			rightKey = true;
 			break;
-		// might use the downKey for something maybe rockets
-		case 40:
-			downKey = true;
-			break;
-		case 49:
-			one = true;
-			break;
-		case 50:
-			two = true;
-			break;
-		case 51:
-			three = true;
-			break;
-		case 52:
-			four = true;
-			break;
 		case 80:
 			pKey = true;
-			//delay++;
+			
 			break;
                 case 87:
                         wKey= true;
@@ -127,7 +113,10 @@ public class Ship extends Polygon implements KeyListener {
 		}
 
 	}
-
+        /**
+         * Pozwala na identyfikację przycisku z klawiatury (za pomocą id przycisku) i oppowiednią reakcję
+         * @param e 
+         */
 	public void keyReleased(KeyEvent e) {
 		int id = e.getKeyCode();
 		switch (id) {
@@ -146,21 +135,7 @@ public class Ship extends Polygon implements KeyListener {
 		case 39:
 			rightKey = false;
 			break;
-		case 40:
-			downKey = false;
-			break;
-		case 49:
-			one = false;
-			break;
-		case 50:
-			two = false;
-			break;
-		case 51:
-			three = false;
-			break;
-		case 52:
-			four = false;
-			break;
+		
 		case 80:
 			pKey = false;
 			break;
@@ -177,20 +152,21 @@ public class Ship extends Polygon implements KeyListener {
 
 	}
 	/**
-	 * Method move: simply moves the ship when keys are pressed
-	 * Also allows ship to appear on opposite side when its out off bound
+	 * Metoda move: pozwala na sterowanie statkiem 
+	 * Gdy statek wyleci po za granicę, jest namalowywany po drugiej stronie
+         * Prędkość statku jest pobierana z pliku config.txt
 	 */
 	public void move(int level) {
                 ReadFile rf = new ReadFile();
                 rf.openFile();
                 rf.readFile();
                 
-		// added to track which direction it is going
+		
 		double prevPosX = position.x;
 		double prevPosY = position.y;
 		double speed = 0;
 		if (upKey) {
-			// speed of the ship changes when space is pressed
+			//prędkość się zwiększa z wciśniętą spacją
 			if (space) {
 				speed = 5*rf.GetObjectlVelocity(level, "ship");
 			} else {

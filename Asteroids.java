@@ -16,6 +16,7 @@ package asteroidymodyfikacja;
  * 9.Za strącenie dużej asteroidy graczowi przysługuje 500 punktów
  * 10.Za strącenie małej asteroidy graczowi przysługuje 1000 punktów
  * 11.Gracz ma 3 życia
+ * 12.Niektóre asteroidy rozpadają się na dwie mniejsze
  */
 
 import java.awt.*;
@@ -216,8 +217,8 @@ class Asteroids extends Game{
 					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
 
 					// reset
-					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
-							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
+					if ((ship.otherKey || ship.upKey  || ship.leftKey || ship.rightKey || ship.space
+							|| ship.shift) && delay > 100) {
 						immunity = 100;
 						live = 3;
 						score = 0;
@@ -436,8 +437,8 @@ class Asteroids extends Game{
 					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
 
 					// reset 
-					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
-							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
+					if ((ship.otherKey || ship.upKey  || ship.leftKey || ship.rightKey || ship.space
+							|| ship.shift) && delay > 100) {
 						immunity = 100;
 						live = 3;
 						score = 0;

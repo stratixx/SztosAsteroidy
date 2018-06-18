@@ -7,6 +7,11 @@ package asteroidymodyfikacja;
 
 import java.awt.Graphics;
 
+/**
+ * KLASA: Circle
+ * OPIS: Klasa po której dziedziczy klasa Bullet
+ */
+
 public class Circle {
 	
 	public Point position;
@@ -19,9 +24,12 @@ public class Circle {
 	}
 	
 	
-	
+	/**
+         * Metoda umożliwiająca malowanie obiektu
+         * @param brush typu Garphics
+         */
 	public void paint(Graphics brush){
 		brush.drawOval((int)position.x, (int)position.y, radius, radius);
-		//brush.fillOval((int)position.x, (int)position.y, radius, radius);
+		
 	}
 }

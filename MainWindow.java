@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package asteroidymodyfikacja;
 
 import java.awt.Canvas;
@@ -18,6 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
+/**
+ * KLASA: MainWindow określa główne okienko aplikacji, które wywoływane jest w mainie
+ * OPIS: Wyposażona w trzy guziki: pierwszy pozwala na rozpoczęcie gry, drugi umożliwia wyświetlenie listy pięciu najlepszych wyników, trzeci natomiast pozwala na zamknięcie aplikacji
+ */
 public class MainWindow extends Canvas implements ActionListener{
         protected boolean on = true;
          int width;

@@ -2,10 +2,9 @@ package asteroidymodyfikacja;
 
 /*
 CLASS: Game
-DESCRIPTION: A painted canvas in its own window, updated every tenth second.
-USAGE: Extended by Asteroids.
-NOTE: You don't need to understand the details here, no fiddling neccessary.
-Original code by Dan Leyzberg and Art Simon
+OPIS: Płótno w okienku gry 
+Klasa abstrakcyjna, którą rozszerza klasa Asteroids
+W tej klasie dochodzi do odświerzania grafiki, a także tu zaimplementowane jest zachowanie okna z płótnem(canvasem) przy rozciąganiu
 */
 import java.awt.*;
 import java.awt.event.*;
@@ -19,15 +18,13 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
   protected Graphics2D buffGraphics;  
   protected Frame frame;
   
-        // width and height scale
+       //skala w dwóch wymiarach okienka
         protected double scaleW = 1.0;
         protected double scaleH = 1.0;
   
 	public Game(String name, int inWidth, int inHeight) {
             width = inWidth;
             height = inHeight;
-	  
-            // Frame can be read as 'window' here.
             frame = new Frame(name);
             frame.add(this);
             frame.setSize(width,height);
@@ -43,6 +40,7 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
                 frame.dispose();} 
             });
             
+            //30 Hz
             Timer timer = new Timer(1000/30, this);
             timer.setInitialDelay(0);
             timer.start();
@@ -51,12 +49,15 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
             buffGraphics = new GraphicsScallable(buffer.createGraphics(),scaleW,scaleH);
         }
   
-  // 'paint' will be called every tenth of a second that the game is on.
+  
 	abstract public void paintAll(Graphics brush);
   Boolean paintAllow = false;
-  // 'update' paints to a buffer then to the screen, then waits a tenth of
-  // a second before repeating itself, assuming the game is on. This is done
-  // to avoid a choppy painting experience if repainted in pieces.
+  
+  /**
+   * DZIAŁANIE:Update maluje do bufora, potem na ekran; następnie czeka 1/10 sekundy zanim się powtórzy, oczywiście o ile gra jest włączona
+   * @param brush 
+   */
+  
     @Override
     public void update(Graphics brush) 
     {      
@@ -75,16 +76,6 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
 
     @Override
     public void componentResized(ComponentEvent e) {   
-        /*
-        Frame frame = (Frame)e.getComponent();
-        Rectangle fBounds = frame.getBounds();         
-        Insets fInsets = frame.getInsets();
-        
-                
-        scaleW = ((100000*fBounds.width-fInsets.left-fInsets.right+width/2)/width)/100000.0;
-        scaleH = ((100000*fBounds.height-frame.getInsets().top-frame.getInsets().bottom+height/2)/height)/100000.0;
-        //repaint();
-        */
         double w = e.getComponent().getWidth();
         double h = e.getComponent().getHeight();
         scaleW = w/width;
