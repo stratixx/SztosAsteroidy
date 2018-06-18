@@ -54,6 +54,7 @@ public class Asteroid extends Polygon{
 	
 	/**
 	 * astShap: tu tworzony jest kształt dużej asteroidy (ma on charakter losowy)
+     * @return 
 	 */
 	public static Point[] astShape(){
 		Random random = new Random();
@@ -69,6 +70,7 @@ public class Asteroid extends Polygon{
 	}
         /**
 	 * smallAstShap: tu tworzony jest kształt małej asteroidy (ma on charakter losowy)
+     * @return 
 	 */
          public static Point[] smallAstShape(){
 		Random random = new Random();
@@ -88,6 +90,7 @@ public class Asteroid extends Polygon{
 	/**
 	 *Asteroidy są umieszczane w randomowych pozycjach- zazwyczaj poza płótnem gry
 	 *returns Point
+     * @return 
 	 */
 	public static  Point pos(){
 		Random random = new Random();
@@ -122,6 +125,8 @@ public class Asteroid extends Polygon{
 	/**
 	 *method: rotację ustawiamy w zależności od pozycji asteroidy
 	 *w ten sposób unikamy sytuacji, że asteroida się nie pojawi albo odrazu skieruje się po za płótno gry
+     * @param position
+     * @return 
 	 */
 	public static  double setRot(Point position){
 		Random random = new Random();
@@ -167,6 +172,7 @@ public class Asteroid extends Polygon{
 	/**
 	 * move sprawia, że asteroida zaczyna się poruszać z prędkością zależną od poziomu 
          * jeśli asteroida wyleci po za ekran, pojawi się symetrycznie z drugiej strony
+     * @param level
 	 */
 	public void move(int level){
 		double prevPosX = position.x;

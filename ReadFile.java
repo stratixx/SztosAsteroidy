@@ -1,9 +1,6 @@
 package asteroidymodyfikacja;
 //martapalka
-/**
- *KLASA:READFILE
- *ZASTOSOWANIE:Klasa która odpowiada za pobieranie danych z pliku konfiguracyjnego oraz wczytywanie wyników do pliku konfiguracyjnego, a także ustalania najwyższego z nich
- */
+
 
 
 import java.io.BufferedReader;
@@ -17,12 +14,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ *KLASA:READFILE
+ *ZASTOSOWANIE:Klasa która odpowiada za pobieranie danych z pliku konfiguracyjnego oraz wczytywanie wyników do pliku konfiguracyjnego, a także ustalania najwyższego z nich
+ */
 public class ReadFile {
 	  int height;
 	  int width;
-	protected  int x;
-	protected  int y;
+
+    /**
+     *
+     */
+    protected  int x;
+
+    /**
+     *
+     */
+    protected  int y;
         private Scanner sc;
         List list;
         
@@ -129,6 +137,7 @@ public class ReadFile {
        /**
         * Metoda pozwalająca na wczytanie pięciu najlepszych wyników do pliku results.txt
         * 
+     * @param input
         * @throws IOException 
         */
        public static void write(String[] input) throws IOException{
@@ -155,6 +164,7 @@ public class ReadFile {
        /**
         * Metoda pozwalająca na zczytanie wyników z pliku results.txt
         * 
+     * @return 
         * @throws FileNotFoundException 
         */
         public static String[] read() throws FileNotFoundException {
@@ -361,6 +371,7 @@ public class ReadFile {
         }
         /**
         Metoda pomocnicza zwracająca całkowity czas gry- po jego upłynięciu gracz wygrywa 
+     * @return 
         */
         public int getTotalGameTime(){
             int totTime=(int)list.get(7)+(int)list.get(11)+(int)list.get(15)+(int)list.get(19)+(int)list.get(23);

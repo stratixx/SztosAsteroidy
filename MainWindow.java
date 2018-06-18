@@ -18,16 +18,23 @@ import javax.swing.*;
  * OPIS: Wyposażona w trzy guziki: pierwszy pozwala na rozpoczęcie gry, drugi umożliwia wyświetlenie listy pięciu najlepszych wyników, trzeci natomiast pozwala na zamknięcie aplikacji
  */
 public class MainWindow extends Canvas implements ActionListener{
-        protected boolean on = true;
+
+    /**
+     *
+     */
+    protected boolean on = true;
          int width;
          int height;
 	private JButton play;
 	private JButton highScore;
 	private JButton theEnd;
        
-        
-        
-	public MainWindow(int width, int height) {
+    /**
+     *
+     * @param width
+     * @param height
+     */
+    public MainWindow(int width, int height) {
                this.width=width;
                this.height=height;
                

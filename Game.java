@@ -1,17 +1,18 @@
 package asteroidymodyfikacja;
 //martapalka
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import javax.swing.Timer;
+
 /*
 CLASS: Game
 OPIS: Płótno w okienku gry 
 Klasa abstrakcyjna, którą rozszerza klasa Asteroids
 W tej klasie dochodzi do odświerzania grafiki, a także tu zaimplementowane jest zachowanie okna z płótnem(canvasem) przy rozciąganiu
 */
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import javax.swing.Timer;
-
-abstract class Game extends Canvas implements ComponentListener, ActionListener{
+public abstract class Game extends Canvas implements ComponentListener, ActionListener{
   protected boolean on = true;
   protected int width, height;
   protected BufferedImage buffer;

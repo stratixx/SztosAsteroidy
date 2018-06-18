@@ -26,7 +26,8 @@ import javax.swing.JFrame;
  * 11.Gracz ma 3 życia
  * 12.Niektóre asteroidy rozpadają się na dwie mniejsze
  */
-class Asteroids extends Game{
+
+public class Asteroids extends Game{
 	// do pauzowania gry
 	static boolean pause = false;
 	// do synchronizacji gry przy rozpoczynaniu, pauzowaniu i kończeniu

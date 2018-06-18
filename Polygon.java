@@ -13,7 +13,7 @@ import java.awt.Graphics;
 *"Polygonami" są asteroidy oraz statki
 */
 
-class Polygon {
+public class Polygon {
   protected Point[] shape;  
   public  Point position;   // przesunięcie
   public double rotation; //zero stopni oznacza skierowanie obiektu w prawo
