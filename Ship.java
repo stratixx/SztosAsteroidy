@@ -25,7 +25,7 @@ public class Ship extends Polygon implements KeyListener {
 	boolean leftKey = false;
 	boolean rightKey = false;
 	boolean otherKey = false;
-        boolean wKey = false;
+        
         //kształt statku bez wciśniętej spacji- normalna prędkość
 	static Point[] ship = { new Point(0, 0), new Point(10, 10),
 			new Point(0, 20), new Point(20, 10) };
@@ -104,9 +104,7 @@ public class Ship extends Polygon implements KeyListener {
 			pKey = true;
 			
 			break;
-                case 87:
-                        wKey= true;
-                        break;
+                
 		default:
 			otherKey = true;
 
@@ -139,9 +137,7 @@ public class Ship extends Polygon implements KeyListener {
 		case 80:
 			pKey = false;
 			break;
-                case 87:
-                        wKey= false;
-                        break;
+                
 		default:
 			otherKey = false;
 

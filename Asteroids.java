@@ -179,16 +179,9 @@ class Asteroids extends Game{
                             brush.drawString("YOU", (int)(rf.height)/3, (int)(rf.width/3)); 
                             brush.drawString("WON!", (int)(rf.height)/3, (int)(rf.width/3)+(int)(rf.width/30)); 
                             brush.drawString("SCORE:" + score, (int)(rf.height)/3, (int)(rf.width/3)+2*(int)(rf.width/30)); 
-                            brush.drawString("Press W button to enter your name:", (int)(rf.height)/3-(int)(rf.height/10), (int)(rf.width/3)+3*(int)(rf.width/30)); 
                             brush.setFont(new Font("Dialog", Font.PLAIN, 16)); 
                             
-                            if(ship.wKey && !alreadyCalled){
-                                
-                            NameWindow nw = new NameWindow(rf.height,rf.width);
-                            alreadyCalled =true;
-                            delay=70;
-                               
-                            }
+                            
                             try {
 						
 						if (!statChange) {
@@ -201,6 +194,7 @@ class Asteroids extends Game{
                                                             rf.highscore(score);
                                                             }
                                                             }
+                                                        results[howManyGamesAlready-1]=Integer.toString(score);
                                                         
 							
                                                             
@@ -214,11 +208,11 @@ class Asteroids extends Game{
 					} catch (IOException e) {
 						System.err.println("File error");
 					}
-					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
+					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+3*(int)(rf.width/30));
 
 					// reset
 					if ((ship.otherKey || ship.upKey  || ship.leftKey || ship.rightKey || ship.space
-							|| ship.shift) && delay > 100) {
+							|| ship.shift) && delay > 50) {
 						immunity = 100;
 						live = 3;
 						score = 0;
@@ -231,7 +225,7 @@ class Asteroids extends Game{
 						asV = Asteroid.astV(getInnitialAsteroidsNumber());
 						delay = 0;
                                                 alreadyExecuted = false;
-                                                alreadyCalled =false;
+                                                //alreadyCalled =false;
                                                 helpful=0;
                                                 end=false;
                                                 howManyGamesAlready++;
@@ -395,17 +389,11 @@ class Asteroids extends Game{
           brush.drawString("GAME", (int)(rf.height)/3, (int)(rf.width/3)); 
           brush.drawString("OVER", (int)(rf.height)/3, (int)(rf.width/3)+(int)(rf.width/30)); 
           brush.drawString("Score:" + score, (int)(rf.height)/3, (int)(rf.width/3)+2*(int)(rf.width/30)); 
-          brush.drawString("Press W button to enter yourname:", (int)(rf.height)/3, (int)(rf.width/3)+3*(int)(rf.width/30)); 
           brush.setFont(new Font("Dialog", Font.PLAIN, (int)(rf.height)/37));  
                                        
                            
                             
-                                        if(ship.wKey && delay>30 && !alreadyCalled){
-                                       
-                                         NameWindow nw = new NameWindow(rf.height,rf.width);
-                                         alreadyCalled=true;
-                                         delay=70;
-                                        }
+                                        
                                         
                                         
 					
@@ -434,11 +422,11 @@ class Asteroids extends Game{
 					} catch (IOException e) {
 						System.err.println("File error");
 					}
-					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
+					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+3*(int)(rf.width/30));
 
 					// reset 
 					if ((ship.otherKey || ship.upKey  || ship.leftKey || ship.rightKey || ship.space
-							|| ship.shift) && delay > 100) {
+							|| ship.shift) && delay > 50) {
 						immunity = 100;
 						live = 3;
 						score = 0;
@@ -451,7 +439,7 @@ class Asteroids extends Game{
 						asV = Asteroid.astV(getInnitialAsteroidsNumber());
 						delay = 0;
                                                 alreadyExecuted = false;
-                                                alreadyCalled =false;
+                                                //alreadyCalled =false;
                                                 helpful=0;
                                                 end=false;
                                                 howManyGamesAlready++;
