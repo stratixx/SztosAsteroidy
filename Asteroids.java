@@ -66,11 +66,9 @@ class Asteroids extends Game{
 	static int w = getWindowWidthorHeight("width");
 	static int h = getWindowWidthorHeight("height");
 
-	
+	//zmienne używane podczas operacji na plikach
         int howManyGamesAlready=1;
 	boolean statChange = false;
-	int astDestroyed = 0;
-	int shipDestroyed = 0;
         String name;
         private String[] results = new String[5];
 
@@ -193,16 +191,16 @@ class Asteroids extends Game{
                             try {
 						
 						if (!statChange) {
-                                                        results[howManyGamesAlready-1]=Integer.toString(score);
-                                                        System.out.println(Integer.decode(results[0]));
+                                                        
+                                                        
                                                         if(howManyGamesAlready<=5){
+                                                            results[howManyGamesAlready-1]=Integer.toString(score);
                                                             if(howManyGamesAlready==5){
                                                             rf.write(results);
-                                                            }
-                                                            }
-                                                        else{
                                                             rf.highscore(score);
-                                                        }
+                                                            }
+                                                            }
+                                                        
 							
                                                             
                                                             
@@ -226,8 +224,6 @@ class Asteroids extends Game{
                                                 time=0;
                                                 level=1;
 						start = 0;
-						astDestroyed = 0;
-						shipDestroyed = 0;
 						bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
 						statChange = false;
 						ship.reset();
@@ -332,8 +328,7 @@ class Asteroids extends Game{
 							immunity = 0;
 							ship.reset();
 							((Asteroid) asV.elementAt(i)).reset();
-							astDestroyed++;
-							shipDestroyed++;
+						
 							// delay for end screen
 							if (live == 0) {
 								delay = 0;
@@ -358,7 +353,6 @@ class Asteroids extends Game{
                                                if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square) && bullets[bullet].shoot == true && ((Asteroid) asV.elementAt(i)).hit==true) {
 							((Asteroid) asV.elementAt(i)).reset();
 							score += scoreInsmall;
-							astDestroyed++;
 							bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
                                                         
 						}
@@ -417,16 +411,16 @@ class Asteroids extends Game{
 					try {
 						
 						if (!statChange) {
-                                                        results[howManyGamesAlready-1]=Integer.toString(score);
-                                                        System.out.println(Integer.decode(results[0]));
+                                                       
+                                                        
                                                         if(howManyGamesAlready<=5){
+                                                            results[howManyGamesAlready-1]=Integer.toString(score);
                                                             if(howManyGamesAlready==5){
                                                             rf.write(results);
-                                                            }
-                                                            }
-                                                        else{
                                                             rf.highscore(score);
-                                                        }
+                                                            }
+                                                            }
+                                                        
 							
                                                             
                                                             
@@ -450,8 +444,6 @@ class Asteroids extends Game{
                                                 time=0;
                                                 level=1;
 						start = 0;
-						astDestroyed = 0;
-						shipDestroyed = 0;
 						bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
 						statChange = false;
 						ship.reset();

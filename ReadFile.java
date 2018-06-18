@@ -180,8 +180,10 @@ public class ReadFile {
 		boolean replace = false;
                 
 		for(int i = 1; i < 6; i++){
-			score[i-1] =  Integer.parseInt(stat[i].substring(3));
-			temp[i-1] =   Integer.parseInt(stat[i].substring(3));
+			//score[i-1] =  Integer.parseInt(stat[i].substring(3));
+                        score[i-1] =  Integer.parseInt(stat[i-1]);
+			//temp[i-1] =   Integer.parseInt(stat[i].substring(3));
+                        temp[i-1] =   Integer.parseInt(stat[i-1]);
 		}
 		for(int i = 0; i < score.length; i++){
 			if(n > score[i] && !replace){
@@ -198,7 +200,7 @@ public class ReadFile {
 		}
 		
 		for(int i = 1; i < 6; i++){
-			stat[i] = i + ". "  + score[i-1];
+			stat[i-1] = i + ". "  + score[i-1];
 		}
         
 			
