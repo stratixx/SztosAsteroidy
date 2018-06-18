@@ -10,24 +10,33 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JTextArea;
+import java.io.FileNotFoundException;
+import javax.swing.JLabel;
 
 /**
  *
  * @author martapalka
  */
 public class ResultsWindow extends Frame{
-    protected JTextArea textArea;
-    private final static String newline ="\n";
+  //  protected JTextArea textArea;
+    private final static String newline =System.lineSeparator();
     
-    public ResultsWindow(int width, int height){
-        textArea = new JTextArea(width-5,height-5);
-	textArea.setEditable(false);
-        textArea.setCaretPosition(textArea.getDocument().getLength());
-
-	setLayout(new FlowLayout());
+    public ResultsWindow(int width, int height) throws FileNotFoundException{
+        super("Top 5 scores");
+       
+        String [] topFive = ReadFile.read();
+        
+	JLabel label = new JLabel();
+        label.setText(topFive[0]+newline+topFive[1]+newline+topFive[2]+newline+topFive[3]+newline+topFive[4]+newline);
+        //JLabel label1 = new JLabel();
+        //label1.setText(topFive[0]+newline+topFive[1]+newline+topFive[2]+newline+topFive[3]+newline+topFive[4]+newline);
+        
+        setLayout(new FlowLayout());
 	setPreferredSize(new Dimension(width, height));
-	add(textArea);
+        add(label);
+        //add(label1);
+        
+	
 	
     
 	

@@ -13,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class MainWindow extends Canvas implements ActionListener{
@@ -69,7 +72,11 @@ public class MainWindow extends Canvas implements ActionListener{
 				//uruchamia się okienko high score
 			{
                            ReadFile rf = new ReadFile();
-			   ResultsWindow rw = new ResultsWindow(this.width,this.height);
+                    try {
+                        ResultsWindow rw = new ResultsWindow(this.width,this.height);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 			}
 				
 				
