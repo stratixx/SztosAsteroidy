@@ -1,58 +1,46 @@
 package asteroidymodyfikacja;
 
-/*
- CLASS: Asteroids
- DESCRIPTION: Extending Game, Asteroids is all in the paint method.
- NOTE: This class is the metaphorical "main method" of your program,
- it is your control center.
- Original code by Dan Leyzberg and Art Simon
- */
-/**Game Features
- * 1.Speed change when space bar is pressed
- * 2.Score increases faster when space bar is pressed
- * 3.Added levels, levels increase amount of asteroids displayed. 
- * Levels change when score reaches certain number
- * 4.reset game after game over.
- * 5.added high score... might add txt file to keep old scores 
- * 6. when increased speed changes to show that its going faster. (thrust shows instead of regular ship)
- * 7. added immunity after you lose a live. (only 3 seconds)
- * 8. added pause button with key p.
- * 9. added stars to the background
- * 10. added bullets. get 1000 points for small asteroid shot.
- * 11. added bullets. get 500 points for big asteroid shot.
- * 12. added way to cheat. press p before reaching 2500 points and then press 1,2,3,4 at the same time. 
- * This make your score 500000 therefore activating impossible mode. 
- * All game features coded by Josue Rojas
+/**
+ *KLASA: Asteroids
+ *OPIS: Dziedziczy po abstrakcyjnej klasie Game 
+ *UWAGA: W tej klasie znajduje się metoda main
+ *Instrukcja obsługi:
+ * 1.Rozszerzenie w postaci zmiany prędkości na szybszą przy naciśnięciu spacji
+ * 2.Kiedy gracz porusza się szybciej punkty też odpowiednio rosną szybciej
+ * 3.Poziom zmienia się po upłynięciu czasu określonego w pliku konfiguracyjnym config.txt
+ * 4.Grę można wygrać "wytrzymując" do końca czasu określonego w pliku konfiguracyjnym
+ * 5.Wraz ze zmianą poziomu dochodzi do zwiększenia prędkości statku i asteroid
+ * 6.Co poziom dodawane są nowe asteroidy
+ * 7.Po utracie życia graczowi przysługuje okres w którym nie może zostać trafiony przez asteroidy
+ * 8.Naciskając przycisk p na klawiaturze, gracz uruchamia pauzę
+ * 9.Za strącenie dużej asteroidy graczowi przysługuje 500 punktów
+ * 10.Za strącenie małej asteroidy graczowi przysługuje 1000 punktów
+ * 11.Gracz ma 3 życia
  */
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
-import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 
 class Asteroids extends Game{
-	// added boolean pause to pause game along with delay for pause
+	// do pauzowania gry
 	static boolean pause = false;
-	// delay is used for pause, start of game and the ending
+	// do synchronizacji gry przy rozpoczynaniu, pauzowaniu i kończeniu
 	static int delay = 100;
-	 static int start = 1;
-	// the immunity is to avoid being hit when you lose a live. it starts at 300
-	// so you get no immunity at the start
-	static int immunity = 100;
+	static int start = 1;
+        static int immunity = 100;
 	static int score = 0;
-	// change this later to txt file to save previous games
 	static int topScore = 0;
 	Ship ship = new Ship();
-	// number of lives
 	int live = 3;
-	// vector of asteroids, starts with a number of asteroids indicated in text file 
+	// wektor asteroid inicjuję liczbą wskazaną w pliku konfiguracyjnym
 	Vector asV = Asteroid.astV(getInnitialAsteroidsNumber());
         ReadFile rf = new ReadFile();
         boolean alreadyExecuted = false;
         boolean alreadyCalled =false;
-        int helpful=0; //used when changing levels in paint method
+        int helpful=0; //pomoc podczas zmiany poziomów
         boolean end=false;
         
         
@@ -62,8 +50,9 @@ class Asteroids extends Game{
 	Random random = new Random();
 	int level = 1;
         int time=0;
-	//score value
+	//punkty za dużą asteroidę
 	int scoreIn = 0;
+        //punkty za małą asteroidę
         int scoreInsmall=0;
         
                 
@@ -73,11 +62,11 @@ class Asteroids extends Game{
 
 	JFrame frame;
 
-	//width and height
+	//wysokość i szerokość
 	static int w = getWindowWidthorHeight("width");
 	static int h = getWindowWidthorHeight("height");
 
-	// use for txt file
+	
         int howManyGamesAlready=1;
 	boolean statChange = false;
 	int astDestroyed = 0;
@@ -87,12 +76,15 @@ class Asteroids extends Game{
 
 	public Asteroids() {
 		super("Asteroids", w, h);
-		//this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener(ship);
                 
 	}
-        
+        /**
+         * Metoda pozwalająca na pobranie wysokości i szerokości okna z pliku konfiguracyjnego
+         * @param s parametr mówiący, czy prosimy o wysokość czy szerokość
+         * @return zwraca wysokość i szerokość okna
+         */
         static public int getWindowWidthorHeight(String s){
             int x = 0;
             ReadFile r = new ReadFile();
@@ -109,8 +101,11 @@ class Asteroids extends Game{
                 
            
         }
-        
-         public int getInnitialAsteroidsNumber(){
+        /**
+         * Metoda pozwalająca na pobranie początkowej ilości asteroid z pliku konfiguracyjnego
+         * @return 
+         */
+        public int getInnitialAsteroidsNumber(){
             ReadFile r = new ReadFile();
             r.openFile();
             r.readFile();
@@ -119,7 +114,11 @@ class Asteroids extends Game{
          }
         
         
-        
+        /**
+         * Metoda która tworzy mniejszą asteroidę
+         * @param pos 
+         * @return zwraca asteroidę
+         */
         public Asteroid getSmallAsteroid(Point pos){
             Asteroid asteroid = new Asteroid(pos);
             asteroid.changeShape();
@@ -127,7 +126,10 @@ class Asteroids extends Game{
             return asteroid;
         }
         
-      
+        /**
+         * Główna metoda gry: to w niej rysowana jest plansza 
+         * @param brush typu Graphics
+         */
         public void paintAll(Graphics brush) {                
 		delay++;
 		brush.setColor(Color.black);
@@ -141,7 +143,7 @@ class Asteroids extends Game{
                 
 		
 		
-			// this sets pause on or off
+			//włączamy lub wyłączamy pauzę
 			if (delay > 30) {
 				if (ship.pKey) {
 					if (pause) {
@@ -154,11 +156,11 @@ class Asteroids extends Game{
 				}
 
 			}
-			// at pause
+			
 			if (pause) {
                             
                             
-				// pause screen
+				// ekran pauzy
 				brush.setColor(Color.white);
 				brush.drawString("GAME PAUSE", 0, (int)(rf.width/55));
 				brush.drawString("Up Key - Move Forward", 0, (int)(rf.width/3)+(int)(rf.width/55));
@@ -185,11 +187,11 @@ class Asteroids extends Game{
                                 
                             NameWindow nw = new NameWindow(rf.height,rf.width);
                             alreadyCalled =true;
+                            delay=70;
                                
                             }
                             try {
-						// to avoid it being written over and over statChange
-						// must change to true until it is reset
+						
 						if (!statChange) {
                                                         results[howManyGamesAlready-1]=Integer.toString(score);
                                                         System.out.println(Integer.decode(results[0]));
@@ -215,7 +217,7 @@ class Asteroids extends Game{
 					}
 					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
 
-					// reset game
+					// reset
 					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
 							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
 						immunity = 100;
@@ -250,14 +252,11 @@ class Asteroids extends Game{
 
 			else {
 				brush.setColor(Color.white);
-				// as long as you have lives, keep on playing
+				
 				if (live > 0) {
-					// counter is used to see if its been reset, or you loose a
-					// live, to avoid being hit when you lose a live
+					
 					immunity++;
-					// since it is dangerous traveling super fast, i increased
-					// the points.
-                                        //time moves faster with  space pressed on
+					
                                         
 
 					bullets[0].move(ship, level);
@@ -272,13 +271,15 @@ class Asteroids extends Game{
 						brush.drawString("Bullets: 1", 10, 80);
 					}
 
-					// score is increases when using space bar
+					
 					if (ship.space) {
+                                                //punkty rosą szybciej kiedy podróżujemy z wciśniętą spacją
 						score += 5;
+                                                //czas płynie szybciej
                                                 time+=2;
 						if (ship.upKey) {
 							if (immunity < 100) {
-								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
+								brush.drawString("Protection:" + (300 - immunity), 10, 120);
 								ship.move(level);
 								if (immunity % 10 != 0) {
 									ship.thrust.paint(brush);
@@ -289,9 +290,9 @@ class Asteroids extends Game{
 							}
 						} else {
 							if (immunity < 100) {
-								brush.drawString("Immunity:" + (100 - immunity), 10, 120);
+								brush.drawString("Protection:" + (100 - immunity), 10, 120);
 								ship.move(level);
-								// flicker when you have immunity
+								
 								if (immunity % 10 != 0) {
 									ship.paint(brush);
 								}
@@ -302,7 +303,7 @@ class Asteroids extends Game{
 						}
 					} else {
 						if (immunity < 100) {
-							brush.drawString("Immunity:" + (100 - immunity), 10, 120);
+							brush.drawString("Protection:" + (100 - immunity), 10, 120);
 							ship.move(level);
 							if (immunity % 10 != 0) {
 								ship.paint(brush);
@@ -318,12 +319,12 @@ class Asteroids extends Game{
 					brush.drawString("Lives " + live, 10, 40);
                                         brush.drawString("Time "+time, 10, 100);
 					
-					//loop for drawing the asteroids
+					//tu rysujemy asteroiidy
 					for (int i = 0; i < asV.size(); i++) {
 						brush.setColor(Color.pink);
 						((Asteroid) asV.elementAt(i)).paint(brush);
 						((Asteroid) asV.elementAt(i)).move(level);
-						// crash with ship : asteroid is destroyed
+						// przypadek stłuczki asteroidy i statku: tracimy życie
 						if (ship.intersection(((Asteroid) asV.elementAt(i))) && immunity > 100 ) {
                                                         
                                                         
@@ -331,56 +332,51 @@ class Asteroids extends Game{
 							immunity = 0;
 							ship.reset();
 							((Asteroid) asV.elementAt(i)).reset();
-                                                       // ((Asteroid) asV.elementAt(i)).changeShape();
-                                                        //asV.add(i)
-                                                        //asV.(i);
 							astDestroyed++;
 							shipDestroyed++;
 							// delay for end screen
 							if (live == 0) {
 								delay = 0;
 							}
-							// break or it will cause problems in the next line
+							
 							break;
 						}
                                       
-						// crash with bullet : big asteroid breaks into two smaller asteroids
+						// stłuczka asteroidy z pociskiem : asteroida roztrzaskuje się na dwie mniejsze
 						if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square)
 								&& bullets[bullet].shoot == true && ((Asteroid) asV.elementAt(i)).hit==false) {
                                                         ((Asteroid) asV.elementAt(i)).hit=true;
                                                         ((Asteroid) asV.elementAt(i)).changeShape();
                                                         asV.add(i+1, getSmallAsteroid(((Asteroid)asV.elementAt(i)).position));
                                                         score += scoreIn;
-                                                        bullets[bullet].counter = bullets[bullet].getCounterLimit(level); //Its better to set smaller counter or a counter depeding on the level
+                                                        bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
+                                                        break;
                                                         
-							//((Asteroid) asV.elementAt(i)).reset();
+							
                                                         }
-                                                //second crash with bullet : small asteroid disappears
+                                                //stłuczka pocisku z małą asteroidą: asteroida znika
                                                if (((Asteroid) asV.elementAt(i)).intersection(bullets[bullet].square) && bullets[bullet].shoot == true && ((Asteroid) asV.elementAt(i)).hit==true) {
 							((Asteroid) asV.elementAt(i)).reset();
 							score += scoreInsmall;
 							astDestroyed++;
 							bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
+                                                        
 						}
 					}
 			
-					//the next few lines of code is for handling score, crashes and asteroid adding
-					//set the score
+					
 					brush.setColor(Color.white);
 					if (time < rf.getTotalGameTime()) {
 						brush.drawString("Level: " + level, 10, 60);
 						scoreIn = 500;
                                                 scoreInsmall=1000;
-						//add another asteroid
-                                                //level change
-						//if (level < ((int) (score / 1000) + 1)) {
                                                 if((time-helpful)>rf.getPlayTime(level)){
                                                   
-                                                   //helpful trick to solve my problem during level change
+                                                   
                                                     helpful+=rf.getPlayTime(level);
-					           // add the number of asteroids indicated in config.txt 
+					           
                                                    level+=1;
-                                                    
+                                                        //dodajemy ilość asteroid określoną w pliku konfiguracyjnym
                                                         int astToAdd=rf.GetAstNumber(level)-rf.GetAstNumber(level-1);
                                                         for(int i=0; i<astToAdd; i++) {
 							asV.addElement(new Asteroid(Asteroid.pos()));
@@ -388,15 +384,15 @@ class Asteroids extends Game{
                                                         
 						}
 					} else {
-						//too many asteroids so none are added here
-						//brush.drawString("Congratulations! You won!", 10, 60);
+						//gra wygrana-czas się skończył
                                                 alreadyExecuted=false;
 					        end=true;
                                                 
 					}
 
 
-					//level = ((score / 1000) + 1);
+					
+                                      
 
 				} else {
 					
@@ -413,13 +409,13 @@ class Asteroids extends Game{
                                        
                                          NameWindow nw = new NameWindow(rf.height,rf.width);
                                          alreadyCalled=true;
+                                         delay=70;
                                         }
                                         
                                         
 					
 					try {
-						// to avoid it being written over and over statChange
-						// must change to true until it is reset
+						
 						if (!statChange) {
                                                         results[howManyGamesAlready-1]=Integer.toString(score);
                                                         System.out.println(Integer.decode(results[0]));
@@ -445,7 +441,7 @@ class Asteroids extends Game{
 					}
 					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
 
-					// reset game
+					// reset 
 					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
 							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
 						immunity = 100;
@@ -475,8 +471,15 @@ class Asteroids extends Game{
 	
         
         }
+        
+        /**
+         * KLASA: main
+         * OPIS: Tworzymy w niej główne okienko aplikacji (MainWindow)
+         * 
+         *  
+         */
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
                 ReadFile rf= new ReadFile();
                 rf.openFile();
                 rf.readFile();

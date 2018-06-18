@@ -8,14 +8,13 @@ import java.util.Vector;
 public class Asteroid extends Polygon{
         
 	Random random = new Random();
-	//double speed = random.nextInt(3) + 1;
         double speed =0;
-	boolean hit=false;
+	boolean hit;
 	
 	public Asteroid(Point pos) {
-		//Point posi = pos();
+		
 		super(astShape(), pos, setRot(pos));
-                
+                hit=false;
                 
 	}
         
