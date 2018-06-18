@@ -10,12 +10,15 @@ package asteroidymodyfikacja;
  */
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.util.ArrayList;
-//import java.util.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
-//import java.util.ArrayList;
-//import java.util.HashMap;
 import java.util.Scanner;
 
 
@@ -25,13 +28,8 @@ public class ReadFile {
 	  int width;
 	protected  int x;
 	protected  int y;
-        //protected int [] level ={1, 2, 3, 4, 5};
-       // protected int [] astNumber;
-        //protected int [] time;
-       // protected double [] astVel;
-       // protected double [] shipVel;
-	private Scanner sc;
-         List list;
+        private Scanner sc;
+        List list;
 /**
  * 	Konstruktor klasy Scaner: ustawia docelowa sciezke do pliku konfiguracyjnego;
  *  pozwala ustawic dogodne parametry jak naprzyklad polozenie obiektu
@@ -39,17 +37,21 @@ public class ReadFile {
         public void openFile(){
             try{
                
+                
                 sc= new Scanner (new File("config.txt"));
+               
+               
                 
-                
-            }
+    }
             catch(Exception e){
                 System.out.println("could not open file");
         }
         }
         
+        
+        
         public void readFile(){
-             list = new ArrayList();
+            list = new ArrayList();
             while (sc.hasNext()){
                 
                 int i = 0;
@@ -121,12 +123,100 @@ public class ReadFile {
 			    throw new IllegalArgumentException("Unknown sign in configuration file");
                         }
                       }
-             //System.out.println(list);
+             
              int astvel=(int) list.get(23);
-             //System.out.println(astvel);
              
                     sc.close();
                     }
+        
+       public static void write(String[] input) throws IOException{
+		String stat = "results.txt";
+		FileWriter writer = new FileWriter(stat);
+		
+		try{
+			BufferedWriter buff = new BufferedWriter(writer);
+			
+			for(int i = 0; i < input.length; i++){
+				buff.write(input[i]);
+				buff.newLine();
+			}
+			
+			buff.flush();
+			buff.close();
+			
+		}
+		catch (IOException e){
+			System.err.println("Error");
+		}
+	}
+        public static String[] read() throws FileNotFoundException {
+		String stat = "results.txt";
+		FileReader read = new FileReader(stat);
+		String[] lines = new String[5];
+		
+		try{
+			BufferedReader buff = new BufferedReader(read);
+			
+			for(int i = 0; i < lines.length; i++){
+				lines[i] = buff.readLine();
+			}	
+			
+			buff.close();
+			
+		}
+		catch (IOException e){
+			System.err.println("Error");
+		}
+		return lines;
+	}
+        
+        public static void highscore(int n) throws IOException{
+		//read file first
+		String[] stat = read();
+		int pos = 0;
+		//create an array of the score 
+		int[] score = new int[5];
+		int[] temp =  new int[score.length + 1];
+		boolean replace = false;
+                
+		for(int i = 1; i < 6; i++){
+			score[i-1] =  Integer.parseInt(stat[i].substring(3));
+			temp[i-1] =   Integer.parseInt(stat[i].substring(3));
+		}
+		for(int i = 0; i < score.length; i++){
+			if(n > score[i] && !replace){
+				score[i] = n;
+				pos = i;
+				replace = true;;
+			}
+		}
+
+		if(replace){
+			for(int i = pos + 1; i < score.length; i++){
+				score[i] = temp[i-1];
+			}
+		}
+		
+		for(int i = 1; i < 6; i++){
+			stat[i] = i + ". "  + score[i-1];
+		}
+        
+			
+		
+			
+		
+		write(stat);
+		
+	}
+        
+        
+           
+        
+        
+       
+    
+        
+        
         
         public int GetAstNumber(int level){
             int astNumber;

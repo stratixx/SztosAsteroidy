@@ -26,13 +26,11 @@ package asteroidymodyfikacja;
  */
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 class Asteroids extends Game{
 	// added boolean pause to pause game along with delay for pause
@@ -42,7 +40,7 @@ class Asteroids extends Game{
 	 static int start = 1;
 	// the immunity is to avoid being hit when you lose a live. it starts at 300
 	// so you get no immunity at the start
-	static int immunity = 300;
+	static int immunity = 100;
 	static int score = 0;
 	// change this later to txt file to save previous games
 	static int topScore = 0;
@@ -60,15 +58,14 @@ class Asteroids extends Game{
         
         
         
-	// array of stars
-	//Star[] stars = Star.starArray(100);
+
 	Random random = new Random();
 	int level = 1;
         int time=0;
 	//score value
 	int scoreIn = 0;
         int scoreInsmall=0;
-        //
+        
                 
         Bullet[] bullets = Bullet.bullets(3);
 	static int bullet = 0;
@@ -81,10 +78,12 @@ class Asteroids extends Game{
 	static int h = getWindowWidthorHeight("height");
 
 	// use for txt file
+        int howManyGamesAlready=1;
 	boolean statChange = false;
 	int astDestroyed = 0;
 	int shipDestroyed = 0;
         String name;
+        private String[] results = new String[5];
 
 	public Asteroids() {
 		super("Asteroids", w, h);
@@ -128,31 +127,8 @@ class Asteroids extends Game{
             return asteroid;
         }
         
-       /* public void readFile(int i, int level, String name){
-            ReadFile r = new ReadFile();
-            r.openFile();
-            r.readFile();
-            switch(i){
-                case 1:
-                    r.getTotalGameTime();
-                break;
-                case 2:
-                    r.GetAstNumber(level);
-                    break;
-                case 3:
-                    r.GetObjectlVelocity(level, name);
-                    break;
-                case 4:
-                    r.getPlayTime(level);
-                    break;
-                default: 
-                    System.out.println("Error connected with reading file");
-            
-        }
-        }*/
-        
-
-	public void paintAll(Graphics brush) {                
+      
+        public void paintAll(Graphics brush) {                
 		delay++;
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, w+250, h+250);
@@ -180,63 +156,97 @@ class Asteroids extends Game{
 			}
 			// at pause
 			if (pause) {
+                            
+                            
 				// pause screen
 				brush.setColor(Color.white);
-				brush.drawString("GAME PAUSE", 0, 11);
-				brush.drawString("Up Key - Move Forward", 0, 31);
-				brush.drawString("Left Key - Rotate Left", 0, 51);
-				brush.drawString("Right Key - Rotate Right", 0, 71);
-				brush.drawString("Space Key w/ Up Key - Activate Thrust", 0, 91);
-				brush.drawString("P Key - Pause/Resume Game", 0, 131);
-				brush.drawString("HIGH SCORE: " + topScore, 360, 290);
-				brush.drawString("Current Score:" + score, 350, 270);
-				if (ship.shift) {
-					// secret message
-					brush.drawString("Hold Shift Key for a stronger bullet", 0, 111);
-				} else {
-					brush.drawString("Shift Key - Shoot", 0, 111);
-				}
-				// cheat code
-				if (ship.one && ship.two && ship.three && ship.four && score < 2500) {
-					JOptionPane.showMessageDialog(frame, "ENTERING IMPOSSIBLE MODE", "WARNING",
-							JOptionPane.WARNING_MESSAGE);
-					score += 500000;
-					asV = Asteroid.astV(1000);
-					// avoid errors
-					ship.one = false;
-					ship.two = false;
-					ship.three = false;
-					ship.four = false;
-
-				}
+				brush.drawString("GAME PAUSE", 0, (int)(rf.width/55));
+				brush.drawString("Up Key - Move Forward", 0, (int)(rf.width/3)+(int)(rf.width/55));
+				brush.drawString("Left Key - Rotate Left", 0, (int)(rf.width/3)+2*(int)(rf.width/55));
+				brush.drawString("Right Key - Rotate Right", 0, (int)(rf.width/3)+3*(int)(rf.width/55));
+				brush.drawString("Space Key w/ Up Key - Activate Thrust", 0, (int)(rf.width/3)+4*(int)(rf.width/55));
+				brush.drawString("P Key - Pause/Resume Game", 0, (int)(rf.width/3)+5*(int)(rf.width/55));
+				brush.drawString("HIGH SCORE: " + topScore, (int)(rf.height)/2, (int)(rf.width/3));
+				brush.drawString("Current Score:" + score, ((int)(rf.height)/2)-(int)(rf.height/55), (int)(rf.width/3)+(int)(rf.width/55));
+				
 
 			}
                         
                         else if(end){
                             brush.setColor(Color.white);
-                            brush.setFont(new Font("Dialog", Font.BOLD, 24));
-		            brush.drawString("CONGRATULATIONS", 360, 100);
-		            brush.drawString("YOU", 360, 120);
-		            brush.drawString("WON!", 330, 140);
-                            brush.drawString("SCORE:" + score, 330, 160);
-                            brush.drawString("Press W button to enter your name:", 330, 180);
-                            //here is a place for a name window to type gamers name 
-			    brush.setFont(new Font("Dialog", Font.PLAIN, 16));
+                            brush.setFont(new Font("Dialog", Font.BOLD, (int)(rf.height)/24)); 
+                            brush.drawString("YOU", (int)(rf.height)/3, (int)(rf.width/3)); 
+                            brush.drawString("WON!", (int)(rf.height)/3, (int)(rf.width/3)+(int)(rf.width/30)); 
+                            brush.drawString("SCORE:" + score, (int)(rf.height)/3, (int)(rf.width/3)+2*(int)(rf.width/30)); 
+                            brush.drawString("Press W button to enter your name:", (int)(rf.height)/3-(int)(rf.height/10), (int)(rf.width/3)+3*(int)(rf.width/30)); 
+                            brush.setFont(new Font("Dialog", Font.PLAIN, 16)); 
                             
-                            if(ship.wKey){
+                            if(ship.wKey && !alreadyCalled){
                                 
-                            NameWindow nw = new NameWindow(400,404);
-                                /*if(!alreadyCalled){
-                                 JFrame frame = new JFrame("Test");
-                                 frame.add(new NameWindow());
-                                 frame.setVisible(true);
-                                 frame.setSize(300, 300);
-                                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                 alreadyCalled =true;
-                            }*/
+                            NameWindow nw = new NameWindow(rf.height,rf.width);
+                            alreadyCalled =true;
+                               
                             }
+                            try {
+						// to avoid it being written over and over statChange
+						// must change to true until it is reset
+						if (!statChange) {
+                                                        results[howManyGamesAlready-1]=Integer.toString(score);
+                                                        System.out.println(Integer.decode(results[0]));
+                                                        if(howManyGamesAlready<=5){
+                                                            if(howManyGamesAlready==5){
+                                                            rf.write(results);
+                                                            }
+                                                            }
+                                                        else{
+                                                            rf.highscore(score);
+                                                        }
+							
+                                                            
+                                                            
+                                                            
+                                                            statChange = true;
+
+						}
+						
+						
+					} catch (IOException e) {
+						System.err.println("File error");
+					}
+					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
+
+					// reset game
+					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
+							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
+						immunity = 100;
+						live = 3;
+						score = 0;
+                                                time=0;
+                                                level=1;
+						start = 0;
+						astDestroyed = 0;
+						shipDestroyed = 0;
+						bullets[bullet].counter = bullets[bullet].getCounterLimit(level);
+						statChange = false;
+						ship.reset();
+						asV = Asteroid.astV(getInnitialAsteroidsNumber());
+						delay = 0;
+                                                alreadyExecuted = false;
+                                                alreadyCalled =false;
+                                                helpful=0;
+                                                end=false;
+                                                howManyGamesAlready++;
+
+					}
+				}
+
+			
+		
+	
+        
+
                             
-                        }
+                        
 
 			else {
 				brush.setColor(Color.white);
@@ -267,7 +277,7 @@ class Asteroids extends Game{
 						score += 5;
                                                 time+=2;
 						if (ship.upKey) {
-							if (immunity < 300) {
+							if (immunity < 100) {
 								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
 								ship.move(level);
 								if (immunity % 10 != 0) {
@@ -278,8 +288,8 @@ class Asteroids extends Game{
 								ship.thrust.paint(brush);
 							}
 						} else {
-							if (immunity < 300) {
-								brush.drawString("Immunity:" + (300 - immunity), 10, 120);
+							if (immunity < 100) {
+								brush.drawString("Immunity:" + (100 - immunity), 10, 120);
 								ship.move(level);
 								// flicker when you have immunity
 								if (immunity % 10 != 0) {
@@ -291,8 +301,8 @@ class Asteroids extends Game{
 							}
 						}
 					} else {
-						if (immunity < 300) {
-							brush.drawString("Immunity:" + (300 - immunity), 10, 120);
+						if (immunity < 100) {
+							brush.drawString("Immunity:" + (100 - immunity), 10, 120);
 							ship.move(level);
 							if (immunity % 10 != 0) {
 								ship.paint(brush);
@@ -314,7 +324,7 @@ class Asteroids extends Game{
 						((Asteroid) asV.elementAt(i)).paint(brush);
 						((Asteroid) asV.elementAt(i)).move(level);
 						// crash with ship : asteroid is destroyed
-						if (ship.intersection(((Asteroid) asV.elementAt(i))) && immunity > 300 ) {
+						if (ship.intersection(((Asteroid) asV.elementAt(i))) && immunity > 100 ) {
                                                         
                                                         
 							live--;
@@ -389,64 +399,56 @@ class Asteroids extends Game{
 					//level = ((score / 1000) + 1);
 
 				} else {
-					brush.setFont(new Font("Dialog", Font.BOLD, 24));
-					brush.drawString("GAME", 360, 100);
-					brush.drawString("OVER", 360, 120);
-					brush.drawString("Score:" + score, 330, 140);
-                                        brush.drawString("Press W button to enter your name:", 330, 180);
-					brush.setFont(new Font("Dialog", Font.PLAIN, 16));
+					
+          brush.setFont(new Font("Dialog", Font.BOLD, (int)(rf.height)/24)); 
+          brush.drawString("GAME", (int)(rf.height)/3, (int)(rf.width/3)); 
+          brush.drawString("OVER", (int)(rf.height)/3, (int)(rf.width/3)+(int)(rf.width/30)); 
+          brush.drawString("Score:" + score, (int)(rf.height)/3, (int)(rf.width/3)+2*(int)(rf.width/30)); 
+          brush.drawString("Press W button to enter yourname:", (int)(rf.height)/3, (int)(rf.width/3)+3*(int)(rf.width/30)); 
+          brush.setFont(new Font("Dialog", Font.PLAIN, (int)(rf.height)/37));  
                                        
                            
                             
                                         if(ship.wKey && delay>30 && !alreadyCalled){
                                        
-                                         NameWindow nw = new NameWindow(400,404);
+                                         NameWindow nw = new NameWindow(rf.height,rf.width);
                                          alreadyCalled=true;
-                                        /*JFrame frame = new JFrame("Enter your name");
-                                        frame.add(new NameWindow());
-                                        frame.setVisible(true);
-                                        frame.setSize(rf.height, rf.width);
-                                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                        Timer timer = new Timer(3000, new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                        frame.setVisible(false);
-                                        frame.dispose();
                                         }
-                                        });
-                                        timer.setRepeats(false);
-                                        timer.start();
-
-                                        frame.setVisible(true); // if modal, application will pause here
-
-                                        System.out.println("Dialog closed");
-
-                                        alreadyCalled =true;
                                         
-                                        */}
-					int posX = 180;
+                                        
+					
 					try {
 						// to avoid it being written over and over statChange
 						// must change to true until it is reset
 						if (!statChange) {
-							File.highscore(score);
-							File.destroyed(astDestroyed, shipDestroyed);
-							statChange = true;
+                                                        results[howManyGamesAlready-1]=Integer.toString(score);
+                                                        System.out.println(Integer.decode(results[0]));
+                                                        if(howManyGamesAlready<=5){
+                                                            if(howManyGamesAlready==5){
+                                                            rf.write(results);
+                                                            }
+                                                            }
+                                                        else{
+                                                            rf.highscore(score);
+                                                        }
+							
+                                                            
+                                                            
+                                                            
+                                                            statChange = true;
 
 						}
-						String[] stat = File.read();
-						for (int i = 0; i < stat.length; i++) {
-							brush.drawString(stat[i], 300, posX);
-							posX += 20;
-						}
+						
+						
 					} catch (IOException e) {
 						System.err.println("File error");
 					}
-					brush.drawString("Press any key to start again", 300, posX + 20);
+					brush.drawString("Press any key to start again",  (int)(rf.height)/3,  (int)(rf.width/3)+4*(int)(rf.width/30));
 
 					// reset game
 					if ((ship.otherKey || ship.upKey || ship.downKey || ship.leftKey || ship.rightKey || ship.space
-							|| ship.shift || ship.one || ship.two || ship.three || ship.four || ship.wKey) && delay > 150) {
-						immunity = 300;
+							|| ship.shift || ship.one || ship.two || ship.three || ship.four) && delay > 150) {
+						immunity = 100;
 						live = 3;
 						score = 0;
                                                 time=0;
@@ -463,6 +465,7 @@ class Asteroids extends Game{
                                                 alreadyCalled =false;
                                                 helpful=0;
                                                 end=false;
+                                                howManyGamesAlready++;
 
 					}
 				}
@@ -473,15 +476,16 @@ class Asteroids extends Game{
         
         }
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
                 ReadFile rf= new ReadFile();
                 rf.openFile();
                 rf.readFile();
 		MainWindow a = new MainWindow(rf.height,rf.width);
-                 
-               
-		
-
-	}
+                
+                
+                
+                
+                
+}
 
 }

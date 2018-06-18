@@ -165,7 +165,7 @@ public class Ship extends Polygon implements KeyListener {
 			pKey = false;
 			break;
                 case 87:
-                        wKey= true;
+                        wKey= false;
                         break;
 		default:
 			otherKey = false;

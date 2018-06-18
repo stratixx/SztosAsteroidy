@@ -38,7 +38,9 @@ abstract class Game extends Canvas implements ComponentListener, ActionListener{
             frame.addComponentListener(this);
             frame.addWindowListener(new WindowAdapter() 
             {
-                public void windowClosing(WindowEvent e) {System.exit(0);} 
+                public void windowClosing(WindowEvent e) {
+                Frame frame = (Frame) e.getSource();
+                frame.dispose();} 
             });
             
             Timer timer = new Timer(1000/30, this);

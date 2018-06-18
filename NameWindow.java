@@ -1,5 +1,5 @@
 package asteroidymodyfikacja;
-
+ 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+ 
 public class NameWindow extends Frame implements ActionListener {
     //private static final String C = "THANKS FOR THE GAME! BYE!";
     private static JTextField nameField;
@@ -27,7 +27,7 @@ public class NameWindow extends Frame implements ActionListener {
         JPanel lowerPanel = new JPanel();
         exitButton = new JButton("OK");
         lowerPanel.setLayout(new FlowLayout());
-        lowerPanel.add(nameField);
+        //lowerPanel.add(nameField);
         JLabel label = new JLabel("Enter your name");
         lowerPanel.add(label);
         //Frame frame = new Frame();
@@ -35,6 +35,7 @@ public class NameWindow extends Frame implements ActionListener {
         setPreferredSize(new Dimension(width, height));
         add(lowerPanel);
         add(exitButton);
+        add(nameField);
         setVisible(true);
         setResizable(true);
         addWindowListener(new WindowAdapter() { 
@@ -43,13 +44,13 @@ public class NameWindow extends Frame implements ActionListener {
         frame.dispose();
       } 
     });
-		
-       pack();
+        pack();
        exitButton.addActionListener(this); 
-
+       nameField.addActionListener(this);
+ 
         
     }
-
+ 
     @Override
     public void actionPerformed(ActionEvent e) {
         String content = nameField.getText();
@@ -58,7 +59,13 @@ public class NameWindow extends Frame implements ActionListener {
              //this = (NameWindow) e.getSource();
              dispose();
         }
+        else if(source == nameField){
+            //dispose();
+            
+        }
     }
-
+ 
    
 }
+
+    
