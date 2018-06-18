@@ -11,7 +11,6 @@ import java.awt.Graphics;
  * KLASA: Circle
  * OPIS: Klasa po której dziedziczy klasa Bullet
  */
-
 public class Circle {
 	
 	public Point position;

@@ -1,5 +1,13 @@
 package asteroidymodyfikacja;
 //martapalka
+
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.Random;
+import java.util.Vector;
+import javax.swing.JFrame;
+
 /**
  *KLASA: Asteroids
  *OPIS: Dziedziczy po abstrakcyjnej klasie Game 
@@ -18,13 +26,6 @@ package asteroidymodyfikacja;
  * 11.Gracz ma 3 życia
  * 12.Niektóre asteroidy rozpadają się na dwie mniejsze
  */
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.Random;
-import java.util.Vector;
-import javax.swing.JFrame;
-
 class Asteroids extends Game{
 	// do pauzowania gry
 	static boolean pause = false;
